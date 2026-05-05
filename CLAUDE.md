@@ -69,3 +69,11 @@ Based on the API spec, features should be organized into these NestJS modules:
 - Theme selection requires the user to have purchased the corresponding product (`THEME_NOT_UNLOCKED` → 403 if not)
 - Product purchase checks coin balance (`INSUFFICIENT_COINS` → 400) and duplicate purchase (`ALREADY_PURCHASED` → 409)
 - User withdrawal is a soft delete (sets `deleted_at`); hard delete after 30-day grace period
+
+### commit convention
+
+<type>: <subject> 형식에 맞추어 커밋
+
+type은 feat, refactor, fix, docs, chore, test로 분리
+
+기능 하나 추가, 버그 픽스 한 번 할 때마다 커밋
