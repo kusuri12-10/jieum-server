@@ -11,6 +11,59 @@
 
 ---
 
+## API 엔드포인트 목록
+
+### Auth
+
+| Method | Endpoint | 인증 | 기능 |
+|---|---|---|---|
+| POST | `/signup` | 불필요 | 회원가입 |
+| POST | `/login` | 불필요 | 로그인, JWT 발급 |
+| POST | `/logout` | 필요 | 로그아웃, 토큰 무효화 |
+| DELETE | `/withdrawal` | 필요 | 회원탈퇴 (soft delete) |
+
+### Main
+
+| Method | Endpoint | 인증 | 기능 |
+|---|---|---|---|
+| GET | `/main` | 필요 | 메인 화면 (코인, 스트릭 현황, 목표일수, 장착 테마) |
+| PATCH | `/streak` | 필요 | 스트릭 목표 일수 변경 |
+
+### Mail
+
+| Method | Endpoint | 인증 | 기능 |
+|---|---|---|---|
+| GET | `/mail/today` | 필요 | 오늘의 질문 조회 |
+| POST | `/mail/today/reply` | 필요 | 오늘의 질문에 답신 제출 |
+| GET | `/reply-all` | 필요 | 내 전체 답신 목록 조회 |
+
+### Stat
+
+| Method | Endpoint | 인증 | 기능 |
+|---|---|---|---|
+| GET | `/stat` | 필요 | 통계 조회 (최장/최단 답변, 총 답변 수) |
+
+### Shop
+
+| Method | Endpoint | 인증 | 기능 |
+|---|---|---|---|
+| GET | `/products` | 필요 | 상품 목록 조회 (설명 제외) |
+| GET | `/products/{id}` | 필요 | 상품 상세 조회 |
+| POST | `/products/{id}` | 필요 | 상품 구매 |
+
+### Theme
+
+| Method | Endpoint | 인증 | 기능 |
+|---|---|---|---|
+| GET | `/theme/bottle` | 필요 | 유리병 테마 전체 조회 |
+| GET | `/theme/mailbox` | 필요 | 우편함 테마 전체 조회 |
+| GET | `/theme/mail` | 필요 | 편지 테마 전체 조회 |
+| PATCH | `/theme/bottle/{id}` | 필요 | 유리병 테마 선택 변경 |
+| PATCH | `/theme/mailbox/{id}` | 필요 | 우편함 테마 선택 변경 |
+| PATCH | `/theme/mail/{id}` | 필요 | 편지 테마 선택 변경 |
+
+---
+
 ## 공통
 
 | 항목 | 내용 |
