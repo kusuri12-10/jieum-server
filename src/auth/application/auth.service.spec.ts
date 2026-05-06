@@ -6,7 +6,6 @@ import * as bcrypt from 'bcrypt';
 import { AuthService } from './auth.service';
 import { USER_REPOSITORY } from '../domain/repository/user.repository';
 import { User } from '../domain/entity/user.entity';
-import { BusinessException } from '../../common/exception/business.exception';
 import { ErrorCode } from '../../common/exception/error-code';
 import { RedisService } from '../../redis/redis.service';
 
@@ -168,7 +167,8 @@ describe('AuthService', () => {
       await service.withdraw(1);
 
       expect(mockUserRepository.update).toHaveBeenCalledTimes(1);
-      const updatedUser: User = mockUserRepository.update.mock.calls[0][0];
+      const [firstCall] = mockUserRepository.update.mock.calls as [[User]];
+      const updatedUser = firstCall[0];
       expect(updatedUser.deletedAt).not.toBeNull();
     });
 
