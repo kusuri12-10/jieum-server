@@ -8,7 +8,7 @@ import {
   MaxLength,
   Min,
 } from 'class-validator';
-import type { ThemeType } from '../../../theme/domain/entity/theme-item.entity.js';
+import type { ThemeType } from '../../../../theme/domain/entity/theme-item.entity.js';
 
 export class CreateThemeItemRequestDto {
   @IsEnum(['BOTTLE', 'MAILBOX', 'MAIL'], {

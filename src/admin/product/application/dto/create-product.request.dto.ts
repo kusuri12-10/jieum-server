@@ -7,7 +7,7 @@ import {
   MaxLength,
   Min,
 } from 'class-validator';
-import type { ProductCategory } from '../../../shop/domain/entity/product.entity.js';
+import type { ProductCategory } from '../../../../shop/domain/entity/product.entity.js';
 
 export class CreateProductRequestDto {
   @IsString({ message: '상품명은 문자열이어야 합니다.' })
