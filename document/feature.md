@@ -9,6 +9,7 @@
 5. [상점 (Shop)](#5-상점-shop)
 6. [테마 (Theme)](#6-테마-theme)
 7. [관리자 (Admin)](#7-관리자-admin)
+8. [마이페이지 (User)](#8-마이페이지-user)
 
 ---
 
@@ -21,7 +22,6 @@
 | POST | `/signup` | 불필요 | 회원가입 |
 | POST | `/login` | 불필요 | 로그인, JWT 발급 |
 | POST | `/logout` | 필요 | 로그아웃, 토큰 무효화 |
-| DELETE | `/withdrawal` | 필요 | 회원탈퇴 (soft delete) |
 
 ### Main
 
@@ -62,6 +62,13 @@
 | PATCH | `/theme/bottle/{id}` | 필요 | 유리병 테마 선택 변경 |
 | PATCH | `/theme/mailbox/{id}` | 필요 | 우편함 테마 선택 변경 |
 | PATCH | `/theme/mail/{id}` | 필요 | 편지 테마 선택 변경 |
+
+### User
+
+| Method | Endpoint | 인증 | 기능 |
+|---|---|---|---|
+| PATCH | `/user/nickname` | 필요 | 닉네임 변경 |
+| DELETE | `/user` | 필요 | 회원탈퇴 (soft delete) |
 
 ### Admin
 
@@ -175,27 +182,6 @@
 | 인증 | 필요 |
 
 **Response `204 No Content`**
-
----
-
-### 1-4. 회원탈퇴
-
-| 항목 | 내용 |
-|---|---|
-| Method | `DELETE` |
-| URL | `/withdrawal` |
-| 인증 | 필요 |
-
-- `deleted_at` 에 현재 시각을 기록하는 **soft delete**
-- 30일 유예 후 하드 삭제 (별도 배치 작업 필요)
-
-**Response `204 No Content`**
-
-**에러**
-
-| 코드 | HTTP | 조건 |
-|---|---|---|
-| `USER_NOT_FOUND` | 404 | 사용자 없음 |
 
 ---
 
@@ -930,3 +916,56 @@
 |---|---|---|
 | `THEME_NOT_FOUND` | 404 | 테마 아이템 없음 |
 | `PRODUCT_NOT_FOUND` | 404 | 연결할 상품이 존재하지 않음 |
+
+---
+
+## 8. 마이페이지 (User)
+
+### 8-1. 닉네임 변경
+
+| 항목 | 내용 |
+|---|---|
+| Method | `PATCH` |
+| URL | `/user/nickname` |
+| 인증 | 필요 |
+
+**Request Body**
+```json
+{
+  "nickname": "새닉네임"
+}
+```
+
+**Response `200`**
+```json
+{
+  "nickname": "새닉네임"
+}
+```
+
+**에러**
+
+| 코드 | HTTP | 조건 |
+|---|---|---|
+| `USER_NOT_FOUND` | 404 | 사용자 없음 |
+
+---
+
+### 8-2. 회원탈퇴
+
+| 항목 | 내용 |
+|---|---|
+| Method | `DELETE` |
+| URL | `/user` |
+| 인증 | 필요 |
+
+- `deleted_at` 에 현재 시각을 기록하는 **soft delete**
+- 30일 유예 후 하드 삭제 (별도 배치 작업 필요)
+
+**Response `204 No Content`**
+
+**에러**
+
+| 코드 | HTTP | 조건 |
+|---|---|---|
+| `USER_NOT_FOUND` | 404 | 사용자 없음 |
