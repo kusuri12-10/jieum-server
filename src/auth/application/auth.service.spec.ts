@@ -8,6 +8,7 @@ import { USER_REPOSITORY } from '../domain/repository/user.repository';
 import { User } from '../domain/entity/user.entity';
 import { BusinessException } from '../../common/exception/business.exception';
 import { ErrorCode } from '../../common/exception/error-code';
+import { RedisService } from '../../redis/redis.service';
 
 jest.mock('bcrypt');
 const bcryptMock = bcrypt as jest.Mocked<typeof bcrypt>;
@@ -30,6 +31,11 @@ const mockConfigService = {
   get: jest.fn().mockReturnValue('15m'),
 };
 
+const mockRedisService = {
+  setLogoutTime: jest.fn().mockResolvedValue(undefined),
+  isTokenValid: jest.fn().mockResolvedValue(true),
+};
+
 describe('AuthService', () => {
   let service: AuthService;
 
@@ -40,6 +46,7 @@ describe('AuthService', () => {
         { provide: USER_REPOSITORY, useValue: mockUserRepository },
         { provide: JwtService, useValue: mockJwtService },
         { provide: ConfigService, useValue: mockConfigService },
+        { provide: RedisService, useValue: mockRedisService },
       ],
     }).compile();
 
@@ -110,6 +117,16 @@ describe('AuthService', () => {
       await expect(service.login(dto)).rejects.toMatchObject({
         response: { code: ErrorCode.INVALID_CREDENTIALS.code },
       });
+    });
+  });
+
+  describe('logout', () => {
+    it('로그아웃 시 Redis에 로그아웃 시각을 저장한다', async () => {
+      const iat = Math.floor(Date.now() / 1000);
+
+      await service.logout(1, iat);
+
+      expect(mockRedisService.setLogoutTime).toHaveBeenCalledWith(1, iat);
     });
   });
 

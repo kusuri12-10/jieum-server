@@ -4,6 +4,8 @@ import type { Request } from 'express';
 export interface JwtPayload {
   sub: number;
   email: string;
+  iat: number; // 토큰 발급 시각 (Unix timestamp)
+  exp: number; // 토큰 만료 시각 (Unix timestamp)
 }
 
 export const CurrentUser = createParamDecorator(

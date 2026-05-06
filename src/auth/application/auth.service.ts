@@ -6,6 +6,7 @@ import { User } from '../domain/entity/user.entity.js';
 import { USER_REPOSITORY, type UserRepository } from '../domain/repository/user.repository.js';
 import { BusinessException } from '../../common/exception/business.exception.js';
 import { ErrorCode } from '../../common/exception/error-code.js';
+import { RedisService } from '../../redis/redis.service.js';
 import type { SignupRequestDto } from './dto/signup.request.dto.js';
 import type { LoginRequestDto } from './dto/login.request.dto.js';
 
@@ -16,6 +17,7 @@ export class AuthService {
     private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly redisService: RedisService,
   ) {}
 
   async signup(dto: SignupRequestDto) {
@@ -63,9 +65,8 @@ export class AuthService {
     };
   }
 
-  async logout(_userId: number): Promise<void> {
-    // 토큰 블랙리스트가 필요한 경우 여기에 구현
-    // 현재는 stateless JWT 방식
+  async logout(userId: number, iat: number): Promise<void> {
+    await this.redisService.setLogoutTime(userId, iat);
   }
 
   async withdraw(userId: number): Promise<void> {

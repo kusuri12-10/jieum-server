@@ -33,7 +33,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   logout(@CurrentUser() user: JwtPayload): Promise<void> {
-    return this.authService.logout(user.sub);
+    return this.authService.logout(user.sub, user.iat);
   }
 
   @Delete('withdrawal')
