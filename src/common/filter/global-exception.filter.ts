@@ -22,19 +22,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       const body = exception.getResponse();
 
       if (typeof body === 'object' && 'code' in (body as object)) {
-        // BusinessException — 이미 { code, message } 형태
+        // { code, message } 형태 — BusinessException, exceptionFactory 모두 처리
         response.status(status).json(body);
-      } else if (
-        typeof body === 'object' &&
-        'message' in (body as object) &&
-        Array.isArray((body as Record<string, unknown>)['message'])
-      ) {
-        // ValidationPipe 오류 — message 배열을 첫 번째 항목으로 노출
-        const messages = (body as Record<string, unknown>)['message'] as string[];
-        response.status(status).json({
-          code: 'VALIDATION_ERROR',
-          message: messages[0],
-        });
       } else {
         response.status(status).json({
           code: 'BAD_REQUEST',
