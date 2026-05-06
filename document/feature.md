@@ -8,6 +8,7 @@
 4. [통계 (Stat)](#4-통계-stat)
 5. [상점 (Shop)](#5-상점-shop)
 6. [테마 (Theme)](#6-테마-theme)
+7. [관리자 (Admin)](#7-관리자-admin)
 
 ---
 
@@ -61,6 +62,17 @@
 | PATCH | `/theme/bottle/{id}` | 필요 | 유리병 테마 선택 변경 |
 | PATCH | `/theme/mailbox/{id}` | 필요 | 우편함 테마 선택 변경 |
 | PATCH | `/theme/mail/{id}` | 필요 | 편지 테마 선택 변경 |
+
+### Admin
+
+| Method | Endpoint | 인증 | 기능 |
+|---|---|---|---|
+| POST | `/admin/questions` | 관리자 | 오늘의 질문 추가 (날짜 지정 가능) |
+| GET | `/admin/questions/{id}/replies` | 관리자 | 특정 질문의 전체 답신 조회 |
+| GET | `/admin/users/{id}` | 관리자 | 유저 정보 조회 |
+| POST | `/admin/products` | 관리자 | 상품 추가 |
+| DELETE | `/admin/products/{id}` | 관리자 | 상품 삭제 |
+| PATCH | `/admin/products/{id}` | 관리자 | 상품 수정 |
 
 ---
 
@@ -542,3 +554,207 @@
 |---|---|---|
 | `THEME_NOT_FOUND` | 404 | 테마 없음 또는 카테고리 불일치 |
 | `THEME_NOT_UNLOCKED` | 403 | 해당 테마의 상품을 구매하지 않음 |
+
+---
+
+## 7. 관리자 (Admin)
+
+> 모든 관리자 엔드포인트는 `Authorization: Bearer {accessToken}` 헤더와 함께 관리자 권한을 검증합니다.
+> 관리자 여부는 `users.is_admin` 컬럼(BOOLEAN)으로 구분합니다.
+
+### 7-1. 오늘의 질문 추가
+
+| 항목 | 내용 |
+|---|---|
+| Method | `POST` |
+| URL | `/admin/questions` |
+| 인증 | 관리자 |
+
+**Request Body**
+```json
+{
+  "content": "오늘 가장 감사했던 순간은?",
+  "questionDate": "2026-05-10"
+}
+```
+
+> `questionDate`: `yyyy-MM-dd` 형식. 생략 시 오늘 날짜로 등록
+
+**Response `201`**
+```json
+{
+  "questionId": 43,
+  "content": "오늘 가장 감사했던 순간은?",
+  "questionDate": "2026-05-10"
+}
+```
+
+**에러**
+
+| 코드 | HTTP | 조건 |
+|---|---|---|
+| `QUESTION_DATE_CONFLICT` | 409 | 해당 날짜에 이미 질문이 존재함 |
+
+---
+
+### 7-2. 질문별 전체 답신 조회
+
+| 항목 | 내용 |
+|---|---|
+| Method | `GET` |
+| URL | `/admin/questions/{id}/replies` |
+| 인증 | 관리자 |
+
+**Query Parameters**
+
+| 파라미터 | 타입 | 기본값 | 설명 |
+|---|---|---|---|
+| `page` | number | 1 | 페이지 번호 |
+| `size` | number | 20 | 페이지 크기 |
+
+**Response `200`**
+```json
+{
+  "questionId": 42,
+  "content": "오늘 가장 인상 깊었던 순간은?",
+  "totalCount": 134,
+  "replies": [
+    {
+      "replyId": 101,
+      "userId": 5,
+      "nickname": "string",
+      "content": "오늘 처음으로 혼자 버스를 탔어요...",
+      "charCount": 120,
+      "createdAt": "2026-05-06T21:30:00.000Z"
+    }
+  ]
+}
+```
+
+> 최신순 정렬. 유저 구분 없이 해당 질문에 달린 모든 답신 반환
+
+**에러**
+
+| 코드 | HTTP | 조건 |
+|---|---|---|
+| `QUESTION_NOT_FOUND` | 404 | 해당 질문 없음 |
+
+---
+
+### 7-3. 유저 정보 조회
+
+| 항목 | 내용 |
+|---|---|
+| Method | `GET` |
+| URL | `/admin/users/{id}` |
+| 인증 | 관리자 |
+
+**Response `200`**
+```json
+{
+  "userId": 5,
+  "email": "user@example.com",
+  "nickname": "string",
+  "coins": 320,
+  "streakGoal": 30,
+  "createdAt": "2026-01-15T10:00:00.000Z",
+  "deletedAt": null
+}
+```
+
+**에러**
+
+| 코드 | HTTP | 조건 |
+|---|---|---|
+| `USER_NOT_FOUND` | 404 | 해당 유저 없음 |
+
+---
+
+### 7-4. 상품 추가
+
+| 항목 | 내용 |
+|---|---|
+| Method | `POST` |
+| URL | `/admin/products` |
+| 인증 | 관리자 |
+
+**Request Body**
+```json
+{
+  "name": "벚꽃 유리병",
+  "description": "봄 향기를 담은 유리병 테마...",
+  "imageUrl": "https://...",
+  "price": 300,
+  "category": "BOTTLE"
+}
+```
+
+**Response `201`**
+```json
+{
+  "productId": 10,
+  "name": "벚꽃 유리병",
+  "category": "BOTTLE",
+  "price": 300
+}
+```
+
+---
+
+### 7-5. 상품 삭제
+
+| 항목 | 내용 |
+|---|---|
+| Method | `DELETE` |
+| URL | `/admin/products/{id}` |
+| 인증 | 관리자 |
+
+- `is_active = false` 로 변경하는 **soft delete** (기존 구매 데이터 보존)
+
+**Response `204 No Content`**
+
+**에러**
+
+| 코드 | HTTP | 조건 |
+|---|---|---|
+| `PRODUCT_NOT_FOUND` | 404 | 상품 없음 |
+
+---
+
+### 7-6. 상품 수정
+
+| 항목 | 내용 |
+|---|---|
+| Method | `PATCH` |
+| URL | `/admin/products/{id}` |
+| 인증 | 관리자 |
+
+**Request Body** (모든 필드 선택적)
+```json
+{
+  "name": "벚꽃 유리병 리뉴얼",
+  "description": "업데이트된 설명...",
+  "imageUrl": "https://...",
+  "price": 250
+}
+```
+
+> `category` 는 변경 불가
+
+**Response `200`**
+```json
+{
+  "productId": 10,
+  "name": "벚꽃 유리병 리뉴얼",
+  "description": "업데이트된 설명...",
+  "imageUrl": "https://...",
+  "price": 250,
+  "category": "BOTTLE"
+}
+```
+
+**에러**
+
+| 코드 | HTTP | 조건 |
+|---|---|---|
+| `PRODUCT_NOT_FOUND` | 404 | 상품 없음 |
