@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 import { ThemeItem, type ThemeType } from '../../domain/entity/theme-item.entity.js';
 import { ProductOrmEntity } from '../../../shop/infrastructure/orm/product.orm-entity.js';
 
-@Entity('theme_item')
+@Entity('theme_items')
 export class ThemeItemOrmEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;

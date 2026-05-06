@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 import { UserTheme } from '../../domain/entity/user-theme.entity.js';
 import { UserOrmEntity } from '../../../auth/infrastructure/orm/user.orm-entity.js';
 
-@Entity('user_theme')
+@Entity('user_themes')
 export class UserThemeOrmEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;

@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Product, type ProductCategory } from '../../domain/entity/product.entity.js';
 
-@Entity('product')
+@Entity('products')
 export class ProductOrmEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;

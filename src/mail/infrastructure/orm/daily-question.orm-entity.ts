@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { DailyQuestion } from '../../domain/entity/daily-question.entity.js';
 
-@Entity('daily_question')
+@Entity('daily_questions')
 export class DailyQuestionOrmEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;

@@ -1,6 +1,6 @@
 ## 데이터 모델
 
-### USER
+### users
 | 컬럼 | 타입 | 설명 |
 |---|---|---|
 | id | BIGINT PK | 사용자 고유 식별자 |
@@ -12,41 +12,41 @@
 | created_at | TIMESTAMP | 가입일시 |
 | deleted_at | TIMESTAMP NULL | 탈퇴일시 (soft delete) |
 
-### USER_THEME
+### user_themes
 | 컬럼 | 타입 | 설명 |
 |---|---|---|
 | id | BIGINT PK | |
-| user_id | BIGINT FK → USER | |
-| bottle_theme_id | BIGINT FK → THEME_ITEM | 장착 중인 유리병 테마 |
-| mailbox_theme_id | BIGINT FK → THEME_ITEM | 장착 중인 우편함 테마 |
-| mail_theme_id | BIGINT FK → THEME_ITEM | 장착 중인 편지 테마 |
+| user_id | BIGINT FK → users | |
+| bottle_theme_id | BIGINT FK → theme_items | 장착 중인 유리병 테마 |
+| mailbox_theme_id | BIGINT FK → theme_items | 장착 중인 우편함 테마 |
+| mail_theme_id | BIGINT FK → theme_items | 장착 중인 편지 테마 |
 
-### STREAK
+### streaks
 | 컬럼 | 타입 | 설명 |
 |---|---|---|
 | id | BIGINT PK | |
-| user_id | BIGINT FK → USER | |
+| user_id | BIGINT FK → users | |
 | date | DATE | 해당 날짜 |
 | completed | BOOLEAN DEFAULT FALSE | 답신 완료 여부 |
 
-### DAILY_QUESTION
+### daily_questions
 | 컬럼 | 타입 | 설명 |
 |---|---|---|
 | id | BIGINT PK | |
 | content | VARCHAR(500) | 질문 내용 |
 | question_date | DATE UNIQUE | 질문 날짜 (하루 1개) |
 
-### REPLY
+### replies
 | 컬럼 | 타입 | 설명 |
 |---|---|---|
 | id | BIGINT PK | |
-| user_id | BIGINT FK → USER | |
-| question_id | BIGINT FK → DAILY_QUESTION | |
+| user_id | BIGINT FK → users | |
+| question_id | BIGINT FK → daily_questions | |
 | content | TEXT | 답신 내용 |
 | char_count | INT | 글자 수 (통계용 캐싱) |
 | created_at | TIMESTAMP | |
 
-### PRODUCT
+### products
 | 컬럼 | 타입 | 설명 |
 |---|---|---|
 | id | BIGINT PK | |
@@ -57,21 +57,21 @@
 | category | ENUM('BOTTLE', 'MAILBOX', 'MAIL') | 테마 카테고리 |
 | is_active | BOOLEAN DEFAULT TRUE | 판매 활성 여부 |
 
-### PURCHASE
+### purchases
 | 컬럼 | 타입 | 설명 |
 |---|---|---|
 | id | BIGINT PK | |
-| user_id | BIGINT FK → USER | |
-| product_id | BIGINT FK → PRODUCT | |
+| user_id | BIGINT FK → users | |
+| product_id | BIGINT FK → products | |
 | purchased_at | TIMESTAMP | 구매일시 |
 
 UNIQUE(user_id, product_id) — 중복 구매 방지
 
-### THEME_ITEM
+### theme_items
 | 컬럼 | 타입 | 설명 |
 |---|---|---|
 | id | BIGINT PK | |
 | type | ENUM('BOTTLE', 'MAILBOX', 'MAIL') | 테마 종류 |
 | name | VARCHAR(100) | 테마명 |
 | image_url | VARCHAR(500) | 미리보기 이미지 |
-| product_id | BIGINT FK → PRODUCT NULL | null이면 무료 기본 테마 |
+| product_id | BIGINT FK → products NULL | null이면 무료 기본 테마 |

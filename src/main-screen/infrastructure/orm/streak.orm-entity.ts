@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 import { Streak } from '../../domain/entity/streak.entity.js';
 import { UserOrmEntity } from '../../../auth/infrastructure/orm/user.orm-entity.js';
 
-@Entity('streak')
+@Entity('streaks')
 export class StreakOrmEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;

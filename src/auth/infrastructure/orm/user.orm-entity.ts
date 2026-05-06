@@ -6,7 +6,7 @@ import {
 } from 'typeorm';
 import { User } from '../../domain/entity/user.entity.js';
 
-@Entity('user')
+@Entity('users')
 export class UserOrmEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;
