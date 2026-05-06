@@ -21,6 +21,6 @@ import { ShopModule } from '../shop/shop.module.js';
     { provide: THEME_ITEM_REPOSITORY, useClass: ThemeItemRepositoryImpl },
     { provide: USER_THEME_REPOSITORY, useClass: UserThemeRepositoryImpl },
   ],
-  exports: [USER_THEME_REPOSITORY],
+  exports: [THEME_ITEM_REPOSITORY, USER_THEME_REPOSITORY],
 })
 export class ThemeModule {}

@@ -48,7 +48,7 @@ export class AuthService {
       throw new BusinessException(ErrorCode.INVALID_CREDENTIALS, HttpStatus.UNAUTHORIZED);
     }
 
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email, isAdmin: user.isAdmin };
     const accessToken = this.jwtService.sign(payload, {
       secret: this.configService.getOrThrow('JWT_ACCESS_SECRET'),
       expiresIn: this.configService.get('JWT_ACCESS_EXPIRES_IN', '15m'),

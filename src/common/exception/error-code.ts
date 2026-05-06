@@ -45,6 +45,16 @@ export const ErrorCode = {
     message: '이미 구매한 상품입니다.',
   },
 
+  // Admin
+  FORBIDDEN: {
+    code: 'FORBIDDEN',
+    message: '관리자 권한이 필요합니다.',
+  },
+  QUESTION_DATE_CONFLICT: {
+    code: 'QUESTION_DATE_CONFLICT',
+    message: '해당 날짜에 이미 질문이 존재합니다.',
+  },
+
   // Theme
   THEME_NOT_FOUND: {
     code: 'THEME_NOT_FOUND',

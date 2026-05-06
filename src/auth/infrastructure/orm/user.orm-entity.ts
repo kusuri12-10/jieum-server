@@ -32,6 +32,9 @@ export class UserOrmEntity {
   @Column({ name: 'deleted_at', type: 'timestamp', nullable: true, default: null })
   deletedAt: Date | null;
 
+  @Column({ name: 'is_admin', type: 'boolean', default: false })
+  isAdmin: boolean;
+
   static fromDomain(user: User): UserOrmEntity {
     const orm = new UserOrmEntity();
     if (user.id) orm.id = user.id;
@@ -42,6 +45,7 @@ export class UserOrmEntity {
     orm.streakGoal = user.streakGoal;
     orm.createdAt = user.createdAt;
     orm.deletedAt = user.deletedAt;
+    orm.isAdmin = user.isAdmin;
     return orm;
   }
 
@@ -55,6 +59,7 @@ export class UserOrmEntity {
       this.streakGoal,
       this.createdAt,
       this.deletedAt,
+      this.isAdmin,
     );
   }
 }

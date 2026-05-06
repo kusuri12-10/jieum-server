@@ -31,4 +31,40 @@ export class ProductRepositoryImpl implements ProductRepository {
     const orm = await this.repo.findOne({ where: { id, isActive: true } });
     return orm ? orm.toDomain() : null;
   }
+
+  async findByIdAdmin(id: number): Promise<Product | null> {
+    const orm = await this.repo.findOne({ where: { id } });
+    return orm ? orm.toDomain() : null;
+  }
+
+  async findManyByIds(ids: number[]): Promise<Product[]> {
+    if (ids.length === 0) return [];
+    const rows = await this.repo
+      .createQueryBuilder('p')
+      .where('p.id IN (:...ids)', { ids })
+      .getMany();
+    return rows.map((r) => r.toDomain());
+  }
+
+  async save(product: Product): Promise<Product> {
+    const orm = ProductOrmEntity.fromDomain(product);
+    const saved = await this.repo.save(orm);
+    return saved.toDomain();
+  }
+
+  async update(product: Product): Promise<Product> {
+    const orm = ProductOrmEntity.fromDomain(product);
+    await this.repo.save(orm);
+    return product;
+  }
+
+  async softDeleteMany(ids: number[]): Promise<void> {
+    if (ids.length === 0) return;
+    await this.repo
+      .createQueryBuilder()
+      .update()
+      .set({ isActive: false })
+      .where('id IN (:...ids)', { ids })
+      .execute();
+  }
 }

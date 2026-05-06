@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import type { Reply } from '../../domain/entity/reply.entity.js';
 import type {
+  AdminReplyItem,
   ReplyRepository,
   ReplyWithQuestion,
 } from '../../domain/repository/reply.repository.js';
@@ -44,6 +45,32 @@ export class ReplyRepositoryImpl implements ReplyRepository {
       replyId: r.id,
       question: r.question?.content ?? '',
       content: r.content,
+      createdAt: r.createdAt,
+    }));
+
+    return { replies, totalCount };
+  }
+
+  async findAllByQuestionId(
+    questionId: number,
+    page: number,
+    size: number,
+  ): Promise<{ replies: AdminReplyItem[]; totalCount: number }> {
+    const [rows, totalCount] = await this.repo
+      .createQueryBuilder('r')
+      .leftJoinAndSelect('r.user', 'u')
+      .where('r.questionId = :questionId', { questionId })
+      .orderBy('r.createdAt', 'DESC')
+      .skip((page - 1) * size)
+      .take(size)
+      .getManyAndCount();
+
+    const replies: AdminReplyItem[] = rows.map((r) => ({
+      replyId: r.id,
+      userId: r.userId,
+      nickname: r.user?.nickname ?? '',
+      content: r.content,
+      charCount: r.charCount,
       createdAt: r.createdAt,
     }));
 

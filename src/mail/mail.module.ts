@@ -21,6 +21,6 @@ import { AuthModule } from '../auth/auth.module.js';
     { provide: DAILY_QUESTION_REPOSITORY, useClass: DailyQuestionRepositoryImpl },
     { provide: REPLY_REPOSITORY, useClass: ReplyRepositoryImpl },
   ],
-  exports: [REPLY_REPOSITORY],
+  exports: [DAILY_QUESTION_REPOSITORY, REPLY_REPOSITORY],
 })
 export class MailModule {}

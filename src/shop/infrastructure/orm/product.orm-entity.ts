@@ -24,6 +24,18 @@ export class ProductOrmEntity {
   @Column({ name: 'is_active', type: 'boolean', default: true })
   isActive: boolean;
 
+  static fromDomain(product: Product): ProductOrmEntity {
+    const orm = new ProductOrmEntity();
+    if (product.id) orm.id = product.id;
+    orm.name = product.name;
+    orm.description = product.description;
+    orm.imageUrl = product.imageUrl;
+    orm.price = product.price;
+    orm.category = product.category;
+    orm.isActive = product.isActive;
+    return orm;
+  }
+
   toDomain(): Product {
     return new Product(
       this.id,

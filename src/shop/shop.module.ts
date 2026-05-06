@@ -21,6 +21,6 @@ import { AuthModule } from '../auth/auth.module.js';
     { provide: PRODUCT_REPOSITORY, useClass: ProductRepositoryImpl },
     { provide: PURCHASE_REPOSITORY, useClass: PurchaseRepositoryImpl },
   ],
-  exports: [PURCHASE_REPOSITORY],
+  exports: [PRODUCT_REPOSITORY, PURCHASE_REPOSITORY],
 })
 export class ShopModule {}

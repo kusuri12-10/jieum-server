@@ -8,6 +8,7 @@ export class User {
     public readonly streakGoal: number,
     public readonly createdAt: Date,
     public readonly deletedAt: Date | null,
+    public readonly isAdmin: boolean = false,
   ) {}
 
   static create(props: {
@@ -24,6 +25,7 @@ export class User {
       30,
       new Date(),
       null,
+      false,
     );
   }
 
@@ -41,6 +43,7 @@ export class User {
       this.streakGoal,
       this.createdAt,
       this.deletedAt,
+      this.isAdmin,
     );
   }
 
@@ -54,6 +57,7 @@ export class User {
       streakGoal,
       this.createdAt,
       this.deletedAt,
+      this.isAdmin,
     );
   }
 
@@ -67,6 +71,7 @@ export class User {
       this.streakGoal,
       this.createdAt,
       new Date(),
+      this.isAdmin,
     );
   }
 }

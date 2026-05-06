@@ -25,4 +25,14 @@ export class DailyQuestionRepositoryImpl implements DailyQuestionRepository {
     const orm = await this.repo.findOne({ where: { id } });
     return orm ? orm.toDomain() : null;
   }
+
+  async save(question: DailyQuestion): Promise<DailyQuestion> {
+    const orm = DailyQuestionOrmEntity.fromDomain(question);
+    const saved = await this.repo.save(orm);
+    return saved.toDomain();
+  }
+
+  async delete(id: number): Promise<void> {
+    await this.repo.delete(id);
+  }
 }

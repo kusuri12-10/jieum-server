@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RedisModule } from './redis/redis.module.js';
+import { AdminModule } from './admin/admin.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { MailModule } from './mail/mail.module.js';
 import { MainScreenModule } from './main-screen/main-screen.module.js';
@@ -28,6 +29,7 @@ import { ThemeModule } from './theme/theme.module.js';
       }),
     }),
     RedisModule,
+    AdminModule,
     AuthModule,
     MailModule,
     MainScreenModule,

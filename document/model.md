@@ -11,6 +11,7 @@
 | streak_goal | INT DEFAULT 30 | 스트릭 목표 일수 |
 | created_at | TIMESTAMP | 가입일시 |
 | deleted_at | TIMESTAMP NULL | 탈퇴일시 (soft delete) |
+| is_admin | BOOLEAN DEFAULT FALSE | 관리자 여부 |
 
 ### user_themes
 | 컬럼 | 타입 | 설명 |

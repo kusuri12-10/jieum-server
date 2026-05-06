@@ -23,6 +23,16 @@ export class ThemeItemOrmEntity {
   @JoinColumn({ name: 'product_id' })
   product: ProductOrmEntity | null;
 
+  static fromDomain(item: ThemeItem): ThemeItemOrmEntity {
+    const orm = new ThemeItemOrmEntity();
+    if (item.id) orm.id = item.id;
+    orm.type = item.type;
+    orm.name = item.name;
+    orm.imageUrl = item.imageUrl;
+    orm.productId = item.productId;
+    return orm;
+  }
+
   toDomain(): ThemeItem {
     return new ThemeItem(this.id, this.type, this.name, this.imageUrl, this.productId);
   }
