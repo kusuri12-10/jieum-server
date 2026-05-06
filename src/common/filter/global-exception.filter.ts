@@ -22,11 +22,23 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       const body = exception.getResponse();
 
       if (typeof body === 'object' && 'code' in (body as object)) {
+        // BusinessException — 이미 { code, message } 형태
         response.status(status).json(body);
+      } else if (
+        typeof body === 'object' &&
+        'message' in (body as object) &&
+        Array.isArray((body as Record<string, unknown>)['message'])
+      ) {
+        // ValidationPipe 오류 — message 배열을 첫 번째 항목으로 노출
+        const messages = (body as Record<string, unknown>)['message'] as string[];
+        response.status(status).json({
+          code: 'VALIDATION_ERROR',
+          message: messages[0],
+        });
       } else {
         response.status(status).json({
-          code: 'HTTP_EXCEPTION',
-          message: typeof body === 'string' ? body : JSON.stringify(body),
+          code: 'BAD_REQUEST',
+          message: typeof body === 'string' ? body : '잘못된 요청입니다.',
         });
       }
       return;
