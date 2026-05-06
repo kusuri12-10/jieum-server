@@ -4,8 +4,8 @@ import { ConfigService } from '@nestjs/config';
 import { HttpStatus } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from './auth.service';
-import { USER_REPOSITORY } from '../domain/repository/user.repository';
-import { User } from '../domain/entity/user.entity';
+import { USER_REPOSITORY } from '../../user/domain/repository/user.repository';
+import { User } from '../../user/domain/entity/user.entity';
 import { ErrorCode } from '../../common/exception/error-code';
 import { RedisService } from '../../redis/redis.service';
 
@@ -156,29 +156,6 @@ describe('AuthService', () => {
       await service.logout(1, iat);
 
       expect(mockRedisService.setLogoutTime).toHaveBeenCalledWith(1, iat);
-    });
-  });
-
-  describe('withdraw', () => {
-    it('탈퇴 성공 시 deleted_at이 설정된 유저로 업데이트한다', async () => {
-      mockUserRepository.findById.mockResolvedValue(mockUser);
-      mockUserRepository.update.mockResolvedValue(undefined);
-
-      await service.withdraw(1);
-
-      expect(mockUserRepository.update).toHaveBeenCalledTimes(1);
-      const [firstCall] = mockUserRepository.update.mock.calls as [[User]];
-      const updatedUser = firstCall[0];
-      expect(updatedUser.deletedAt).not.toBeNull();
-    });
-
-    it('존재하지 않는 유저면 USER_NOT_FOUND 예외를 던진다', async () => {
-      mockUserRepository.findById.mockResolvedValue(null);
-
-      await expect(service.withdraw(999)).rejects.toMatchObject({
-        response: { code: ErrorCode.USER_NOT_FOUND.code },
-        status: HttpStatus.NOT_FOUND,
-      });
     });
   });
 });

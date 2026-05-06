@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus } from '@nestjs/common';
 import { MainScreenService } from './main-screen.service';
-import { USER_REPOSITORY } from '../../auth/domain/repository/user.repository';
+import { USER_REPOSITORY } from '../../user/domain/repository/user.repository';
 import { STREAK_REPOSITORY } from '../domain/repository/streak.repository';
 import { USER_THEME_REPOSITORY } from '../../theme/domain/repository/user-theme.repository';
-import { User } from '../../auth/domain/entity/user.entity';
+import { User } from '../../user/domain/entity/user.entity';
 import { Streak } from '../domain/entity/streak.entity';
 import { UserTheme } from '../../theme/domain/entity/user-theme.entity';
 import { ErrorCode } from '../../common/exception/error-code';

@@ -8,7 +8,7 @@ import {
   Unique,
 } from 'typeorm';
 import { Purchase } from '../../domain/entity/purchase.entity.js';
-import { UserOrmEntity } from '../../../auth/infrastructure/orm/user.orm-entity.js';
+import { UserOrmEntity } from '../../../user/infrastructure/orm/user.orm-entity.js';
 import { ProductOrmEntity } from './product.orm-entity.js';
 
 @Entity('purchases')

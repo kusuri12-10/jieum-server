@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Delete,
   HttpCode,
   HttpStatus,
   Post,
@@ -37,12 +36,5 @@ export class AuthController {
   @HttpCode(HttpStatus.NO_CONTENT)
   logout(@CurrentUser() user: JwtPayload): Promise<void> {
     return this.authService.logout(user.sub, user.iat);
-  }
-
-  @Delete('withdrawal')
-  @UseGuards(JwtAuthGuard)
-  @HttpCode(HttpStatus.NO_CONTENT)
-  withdraw(@CurrentUser() user: JwtPayload): Promise<void> {
-    return this.authService.withdraw(user.sub);
   }
 }

@@ -13,7 +13,7 @@ import {
 import {
   USER_REPOSITORY,
   type UserRepository,
-} from '../../auth/domain/repository/user.repository.js';
+} from '../../user/domain/repository/user.repository.js';
 import type { ProductListQueryDto } from './dto/product-list.query.dto.js';
 
 @Injectable()

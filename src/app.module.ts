@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RedisModule } from './redis/redis.module.js';
 import { AdminModule } from './admin/admin.module.js';
 import { AuthModule } from './auth/auth.module.js';
+import { UserModule } from './user/user.module.js';
 import { MailModule } from './mail/mail.module.js';
 import { MainScreenModule } from './main-screen/main-screen.module.js';
 import { StatModule } from './stat/stat.module.js';
@@ -31,6 +32,7 @@ import { ThemeModule } from './theme/theme.module.js';
     RedisModule,
     AdminModule,
     AuthModule,
+    UserModule,
     MailModule,
     MainScreenModule,
     StatModule,

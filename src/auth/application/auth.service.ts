@@ -2,11 +2,11 @@ import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
-import { User } from '../domain/entity/user.entity.js';
+import { User } from '../../user/domain/entity/user.entity.js';
 import {
   USER_REPOSITORY,
   type UserRepository,
-} from '../domain/repository/user.repository.js';
+} from '../../user/domain/repository/user.repository.js';
 import { BusinessException } from '../../common/exception/business.exception.js';
 import { ErrorCode } from '../../common/exception/error-code.js';
 import { RedisService } from '../../redis/redis.service.js';
@@ -86,16 +86,5 @@ export class AuthService {
 
   async logout(userId: number, iat: number): Promise<void> {
     await this.redisService.setLogoutTime(userId, iat);
-  }
-
-  async withdraw(userId: number): Promise<void> {
-    const user = await this.userRepository.findById(userId);
-    if (!user) {
-      throw new BusinessException(
-        ErrorCode.USER_NOT_FOUND,
-        HttpStatus.NOT_FOUND,
-      );
-    }
-    await this.userRepository.update(user.withdraw());
   }
 }

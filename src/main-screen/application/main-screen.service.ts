@@ -4,7 +4,7 @@ import { ErrorCode } from '../../common/exception/error-code.js';
 import {
   USER_REPOSITORY,
   type UserRepository,
-} from '../../auth/domain/repository/user.repository.js';
+} from '../../user/domain/repository/user.repository.js';
 import {
   STREAK_REPOSITORY,
   type StreakRepository,

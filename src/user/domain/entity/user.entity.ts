@@ -61,6 +61,20 @@ export class User {
     );
   }
 
+  withNickname(nickname: string): User {
+    return new User(
+      this.id,
+      this.email,
+      this.passwordHash,
+      nickname,
+      this.coins,
+      this.streakGoal,
+      this.createdAt,
+      this.deletedAt,
+      this.isAdmin,
+    );
+  }
+
   withdraw(): User {
     return new User(
       this.id,

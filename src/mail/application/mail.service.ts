@@ -14,7 +14,7 @@ import {
 import {
   USER_REPOSITORY,
   type UserRepository,
-} from '../../auth/domain/repository/user.repository.js';
+} from '../../user/domain/repository/user.repository.js';
 import type { SubmitReplyRequestDto } from './dto/submit-reply.request.dto.js';
 import type { ReplyAllQueryDto } from './dto/reply-all.query.dto.js';
 

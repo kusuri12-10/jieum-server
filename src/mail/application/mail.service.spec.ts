@@ -4,10 +4,10 @@ import { HttpStatus } from '@nestjs/common';
 import { MailService } from './mail.service';
 import { DAILY_QUESTION_REPOSITORY } from '../domain/repository/daily-question.repository';
 import { REPLY_REPOSITORY } from '../domain/repository/reply.repository';
-import { USER_REPOSITORY } from '../../auth/domain/repository/user.repository';
+import { USER_REPOSITORY } from '../../user/domain/repository/user.repository';
 import { DailyQuestion } from '../domain/entity/daily-question.entity';
 import { Reply } from '../domain/entity/reply.entity';
-import { User } from '../../auth/domain/entity/user.entity';
+import { User } from '../../user/domain/entity/user.entity';
 import { ErrorCode } from '../../common/exception/error-code';
 
 const mockQuestion = new DailyQuestion(

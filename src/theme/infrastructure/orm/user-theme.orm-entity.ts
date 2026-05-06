@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UserTheme } from '../../domain/entity/user-theme.entity.js';
-import { UserOrmEntity } from '../../../auth/infrastructure/orm/user.orm-entity.js';
+import { UserOrmEntity } from '../../../user/infrastructure/orm/user.orm-entity.js';
 
 @Entity('user_themes')
 export class UserThemeOrmEntity {

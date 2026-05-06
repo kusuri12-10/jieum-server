@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Streak } from '../../domain/entity/streak.entity.js';
-import { UserOrmEntity } from '../../../auth/infrastructure/orm/user.orm-entity.js';
+import { UserOrmEntity } from '../../../user/infrastructure/orm/user.orm-entity.js';
 
 @Entity('streaks')
 export class StreakOrmEntity {

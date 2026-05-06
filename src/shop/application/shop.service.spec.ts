@@ -3,10 +3,10 @@ import { HttpStatus } from '@nestjs/common';
 import { ShopService } from './shop.service';
 import { PRODUCT_REPOSITORY } from '../domain/repository/product.repository';
 import { PURCHASE_REPOSITORY } from '../domain/repository/purchase.repository';
-import { USER_REPOSITORY } from '../../auth/domain/repository/user.repository';
+import { USER_REPOSITORY } from '../../user/domain/repository/user.repository';
 import { Product } from '../domain/entity/product.entity';
 import { Purchase } from '../domain/entity/purchase.entity';
-import { User } from '../../auth/domain/entity/user.entity';
+import { User } from '../../user/domain/entity/user.entity';
 import { ErrorCode } from '../../common/exception/error-code';
 
 const mockProduct = new Product(

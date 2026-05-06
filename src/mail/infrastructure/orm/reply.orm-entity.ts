@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Reply } from '../../domain/entity/reply.entity.js';
-import { UserOrmEntity } from '../../../auth/infrastructure/orm/user.orm-entity.js';
+import { UserOrmEntity } from '../../../user/infrastructure/orm/user.orm-entity.js';
 import { DailyQuestionOrmEntity } from './daily-question.orm-entity.js';
 
 @Entity('replies')
