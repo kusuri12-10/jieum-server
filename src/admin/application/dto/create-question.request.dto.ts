@@ -1,4 +1,10 @@
-import { IsDateString, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateQuestionRequestDto {
   @IsString({ message: '질문 내용은 문자열이어야 합니다.' })

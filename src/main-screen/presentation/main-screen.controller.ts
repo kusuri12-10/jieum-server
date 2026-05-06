@@ -1,6 +1,17 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Patch, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Patch,
+  UseGuards,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '../../common/guard/jwt-auth.guard.js';
-import { CurrentUser, type JwtPayload } from '../../common/decorator/current-user.decorator.js';
+import {
+  CurrentUser,
+  type JwtPayload,
+} from '../../common/decorator/current-user.decorator.js';
 import { MainScreenService } from '../application/main-screen.service.js';
 import { UpdateStreakGoalRequestDto } from '../application/dto/update-streak-goal.request.dto.js';
 

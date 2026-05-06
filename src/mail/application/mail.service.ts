@@ -7,8 +7,14 @@ import {
   DAILY_QUESTION_REPOSITORY,
   type DailyQuestionRepository,
 } from '../domain/repository/daily-question.repository.js';
-import { REPLY_REPOSITORY, type ReplyRepository } from '../domain/repository/reply.repository.js';
-import { USER_REPOSITORY, type UserRepository } from '../../auth/domain/repository/user.repository.js';
+import {
+  REPLY_REPOSITORY,
+  type ReplyRepository,
+} from '../domain/repository/reply.repository.js';
+import {
+  USER_REPOSITORY,
+  type UserRepository,
+} from '../../auth/domain/repository/user.repository.js';
 import type { SubmitReplyRequestDto } from './dto/submit-reply.request.dto.js';
 import type { ReplyAllQueryDto } from './dto/reply-all.query.dto.js';
 
@@ -28,7 +34,10 @@ export class MailService {
     const today = new Date();
     const question = await this.questionRepository.findByDate(today);
     if (!question) {
-      throw new BusinessException(ErrorCode.QUESTION_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.QUESTION_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     const existing = await this.replyRepository.findByUserIdAndQuestionId(
@@ -47,7 +56,10 @@ export class MailService {
   async submitReply(userId: number, dto: SubmitReplyRequestDto) {
     const question = await this.questionRepository.findById(dto.questionId);
     if (!question) {
-      throw new BusinessException(ErrorCode.QUESTION_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.QUESTION_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     const existing = await this.replyRepository.findByUserIdAndQuestionId(
@@ -55,7 +67,10 @@ export class MailService {
       dto.questionId,
     );
     if (existing) {
-      throw new BusinessException(ErrorCode.ALREADY_REPLIED, HttpStatus.CONFLICT);
+      throw new BusinessException(
+        ErrorCode.ALREADY_REPLIED,
+        HttpStatus.CONFLICT,
+      );
     }
 
     const reply = Reply.create({

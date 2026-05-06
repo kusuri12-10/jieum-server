@@ -10,9 +10,29 @@ import { Reply } from '../domain/entity/reply.entity';
 import { User } from '../../auth/domain/entity/user.entity';
 import { ErrorCode } from '../../common/exception/error-code';
 
-const mockQuestion = new DailyQuestion(42, '오늘 가장 인상 깊었던 순간은?', new Date('2026-05-06'));
-const mockReply = new Reply(101, 1, 42, '오늘 처음으로 혼자 버스를 탔어요', 18, new Date());
-const mockUser = new User(1, 'test@test.com', 'hashed_pw', '닉네임', 100, 30, new Date(), null);
+const mockQuestion = new DailyQuestion(
+  42,
+  '오늘 가장 인상 깊었던 순간은?',
+  new Date('2026-05-06'),
+);
+const mockReply = new Reply(
+  101,
+  1,
+  42,
+  '오늘 처음으로 혼자 버스를 탔어요',
+  18,
+  new Date(),
+);
+const mockUser = new User(
+  1,
+  'test@test.com',
+  'hashed_pw',
+  '닉네임',
+  100,
+  30,
+  new Date(),
+  null,
+);
 
 const mockQuestionRepository = {
   findByDate: jest.fn(),
@@ -46,7 +66,10 @@ describe('MailService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         MailService,
-        { provide: DAILY_QUESTION_REPOSITORY, useValue: mockQuestionRepository },
+        {
+          provide: DAILY_QUESTION_REPOSITORY,
+          useValue: mockQuestionRepository,
+        },
         { provide: REPLY_REPOSITORY, useValue: mockReplyRepository },
         { provide: USER_REPOSITORY, useValue: mockUserRepository },
         { provide: ConfigService, useValue: mockConfigService },
@@ -73,7 +96,9 @@ describe('MailService', () => {
 
     it('이미 답신했으면 hasReplied가 true다', async () => {
       mockQuestionRepository.findByDate.mockResolvedValue(mockQuestion);
-      mockReplyRepository.findByUserIdAndQuestionId.mockResolvedValue(mockReply);
+      mockReplyRepository.findByUserIdAndQuestionId.mockResolvedValue(
+        mockReply,
+      );
 
       const result = await service.getTodayQuestion(1);
 
@@ -128,7 +153,9 @@ describe('MailService', () => {
 
     it('이미 답신했으면 ALREADY_REPLIED 예외를 던진다', async () => {
       mockQuestionRepository.findById.mockResolvedValue(mockQuestion);
-      mockReplyRepository.findByUserIdAndQuestionId.mockResolvedValue(mockReply);
+      mockReplyRepository.findByUserIdAndQuestionId.mockResolvedValue(
+        mockReply,
+      );
 
       await expect(service.submitReply(1, dto)).rejects.toMatchObject({
         response: { code: ErrorCode.ALREADY_REPLIED.code },
@@ -140,7 +167,14 @@ describe('MailService', () => {
   describe('getAllReplies', () => {
     it('페이지네이션된 답신 목록을 반환한다', async () => {
       const mockData = {
-        replies: [{ replyId: 101, question: '질문', content: '내용', createdAt: new Date() }],
+        replies: [
+          {
+            replyId: 101,
+            question: '질문',
+            content: '내용',
+            createdAt: new Date(),
+          },
+        ],
         totalCount: 1,
       };
       mockReplyRepository.findAllByUserId.mockResolvedValue(mockData);
@@ -149,7 +183,11 @@ describe('MailService', () => {
 
       expect(result.totalCount).toBe(1);
       expect(result.replies).toHaveLength(1);
-      expect(mockReplyRepository.findAllByUserId).toHaveBeenCalledWith(1, 1, 20);
+      expect(mockReplyRepository.findAllByUserId).toHaveBeenCalledWith(
+        1,
+        1,
+        20,
+      );
     });
   });
 });

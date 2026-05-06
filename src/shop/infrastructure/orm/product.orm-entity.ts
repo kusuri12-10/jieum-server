@@ -1,5 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Product, type ProductCategory } from '../../domain/entity/product.entity.js';
+import {
+  Product,
+  type ProductCategory,
+} from '../../domain/entity/product.entity.js';
 
 @Entity('products')
 export class ProductOrmEntity {

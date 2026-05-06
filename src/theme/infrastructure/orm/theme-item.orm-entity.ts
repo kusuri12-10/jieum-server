@@ -1,5 +1,14 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { ThemeItem, type ThemeType } from '../../domain/entity/theme-item.entity.js';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import {
+  ThemeItem,
+  type ThemeType,
+} from '../../domain/entity/theme-item.entity.js';
 import { ProductOrmEntity } from '../../../shop/infrastructure/orm/product.orm-entity.js';
 
 @Entity('theme_items')
@@ -34,6 +43,12 @@ export class ThemeItemOrmEntity {
   }
 
   toDomain(): ThemeItem {
-    return new ThemeItem(this.id, this.type, this.name, this.imageUrl, this.productId);
+    return new ThemeItem(
+      this.id,
+      this.type,
+      this.name,
+      this.imageUrl,
+      this.productId,
+    );
   }
 }

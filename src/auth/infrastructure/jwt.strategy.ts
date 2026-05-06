@@ -20,7 +20,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload): Promise<JwtPayload> {
-    const isValid = await this.redisService.isTokenValid(payload.sub, payload.iat);
+    const isValid = await this.redisService.isTokenValid(
+      payload.sub,
+      payload.iat,
+    );
 
     if (!isValid) {
       throw new UnauthorizedException({
@@ -29,6 +32,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       });
     }
 
-    return { sub: payload.sub, email: payload.email, isAdmin: payload.isAdmin, iat: payload.iat, exp: payload.exp };
+    return {
+      sub: payload.sub,
+      email: payload.email,
+      isAdmin: payload.isAdmin,
+      iat: payload.iat,
+      exp: payload.exp,
+    };
   }
 }

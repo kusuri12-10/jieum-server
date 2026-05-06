@@ -1,5 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { REPLY_REPOSITORY, type ReplyRepository } from '../../mail/domain/repository/reply.repository.js';
+import {
+  REPLY_REPOSITORY,
+  type ReplyRepository,
+} from '../../mail/domain/repository/reply.repository.js';
 
 @Injectable()
 export class StatService {

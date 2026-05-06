@@ -9,10 +9,28 @@ import { UserTheme } from '../domain/entity/user-theme.entity';
 import { Purchase } from '../../shop/domain/entity/purchase.entity';
 import { ErrorCode } from '../../common/exception/error-code';
 
-const freeTheme = new ThemeItem(1, 'BOTTLE', '기본 유리병', 'https://img1.png', null);       // 무료
-const paidTheme = new ThemeItem(2, 'BOTTLE', '벚꽃 유리병', 'https://img2.png', 10);          // 유료 (productId: 10)
-const mailboxTheme = new ThemeItem(3, 'MAILBOX', '기본 우편함', 'https://img3.png', null);
-const mockUserTheme = new UserTheme(1, 1, 1, null, null);                                      // bottle: 1(기본), 나머지 null
+const freeTheme = new ThemeItem(
+  1,
+  'BOTTLE',
+  '기본 유리병',
+  'https://img1.png',
+  null,
+); // 무료
+const paidTheme = new ThemeItem(
+  2,
+  'BOTTLE',
+  '벚꽃 유리병',
+  'https://img2.png',
+  10,
+); // 유료 (productId: 10)
+const mailboxTheme = new ThemeItem(
+  3,
+  'MAILBOX',
+  '기본 우편함',
+  'https://img3.png',
+  null,
+);
+const mockUserTheme = new UserTheme(1, 1, 1, null, null); // bottle: 1(기본), 나머지 null
 const mockPurchase = new Purchase(1, 1, 10, new Date());
 
 const mockThemeItemRepository = {
@@ -51,15 +69,26 @@ describe('ThemeService', () => {
 
   describe('getThemes', () => {
     it('테마 목록과 잠금 여부, 선택 여부를 반환한다', async () => {
-      mockThemeItemRepository.findAllByType.mockResolvedValue([freeTheme, paidTheme]);
+      mockThemeItemRepository.findAllByType.mockResolvedValue([
+        freeTheme,
+        paidTheme,
+      ]);
       mockUserThemeRepository.findByUserId.mockResolvedValue(mockUserTheme);
       mockPurchaseRepository.findProductIdsByUserId.mockResolvedValue([10]); // paidTheme 구매
 
       const result = await service.getThemes(1, 'BOTTLE');
 
       expect(result.themes).toHaveLength(2);
-      expect(result.themes[0]).toMatchObject({ themeId: 1, isUnlocked: true, isSelected: true });
-      expect(result.themes[1]).toMatchObject({ themeId: 2, isUnlocked: true, isSelected: false });
+      expect(result.themes[0]).toMatchObject({
+        themeId: 1,
+        isUnlocked: true,
+        isSelected: true,
+      });
+      expect(result.themes[1]).toMatchObject({
+        themeId: 2,
+        isUnlocked: true,
+        isSelected: false,
+      });
     });
 
     it('무료 테마는 미구매 상태여도 isUnlocked가 true다', async () => {
@@ -97,7 +126,9 @@ describe('ThemeService', () => {
 
     it('유료 테마를 구매한 경우 테마 변경에 성공한다', async () => {
       mockThemeItemRepository.findById.mockResolvedValue(paidTheme);
-      mockPurchaseRepository.findByUserIdAndProductId.mockResolvedValue(mockPurchase);
+      mockPurchaseRepository.findByUserIdAndProductId.mockResolvedValue(
+        mockPurchase,
+      );
       mockUserThemeRepository.findByUserId.mockResolvedValue(mockUserTheme);
       mockUserThemeRepository.update.mockResolvedValue(undefined);
 
@@ -119,10 +150,12 @@ describe('ThemeService', () => {
     it('존재하지 않는 테마면 THEME_NOT_FOUND 예외를 던진다', async () => {
       mockThemeItemRepository.findById.mockResolvedValue(null);
 
-      await expect(service.changeTheme(1, 'BOTTLE', 999)).rejects.toMatchObject({
-        response: { code: ErrorCode.THEME_NOT_FOUND.code },
-        status: HttpStatus.NOT_FOUND,
-      });
+      await expect(service.changeTheme(1, 'BOTTLE', 999)).rejects.toMatchObject(
+        {
+          response: { code: ErrorCode.THEME_NOT_FOUND.code },
+          status: HttpStatus.NOT_FOUND,
+        },
+      );
     });
 
     it('카테고리 불일치 시 THEME_NOT_FOUND 예외를 던진다', async () => {

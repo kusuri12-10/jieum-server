@@ -4,7 +4,9 @@ import type { ProductCategory } from '../../domain/entity/product.entity.js';
 
 export class ProductListQueryDto {
   @IsOptional()
-  @IsEnum(['BOTTLE', 'MAILBOX', 'MAIL'], { message: 'category는 BOTTLE, MAILBOX, MAIL 중 하나여야 합니다.' })
+  @IsEnum(['BOTTLE', 'MAILBOX', 'MAIL'], {
+    message: 'category는 BOTTLE, MAILBOX, MAIL 중 하나여야 합니다.',
+  })
   category?: ProductCategory;
 
   @IsOptional()

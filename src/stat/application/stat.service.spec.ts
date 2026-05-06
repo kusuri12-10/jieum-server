@@ -3,7 +3,14 @@ import { StatService } from './stat.service';
 import { REPLY_REPOSITORY } from '../../mail/domain/repository/reply.repository';
 import { Reply } from '../../mail/domain/entity/reply.entity';
 
-const longReply = new Reply(55, 1, 1, '긴 답변...', 842, new Date('2026-04-15'));
+const longReply = new Reply(
+  55,
+  1,
+  1,
+  '긴 답변...',
+  842,
+  new Date('2026-04-15'),
+);
 const shortReply = new Reply(12, 1, 2, '좋았다.', 4, new Date('2026-03-10'));
 
 const mockReplyRepository = {

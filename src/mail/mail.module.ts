@@ -18,7 +18,10 @@ import { AuthModule } from '../auth/auth.module.js';
   controllers: [MailController],
   providers: [
     MailService,
-    { provide: DAILY_QUESTION_REPOSITORY, useClass: DailyQuestionRepositoryImpl },
+    {
+      provide: DAILY_QUESTION_REPOSITORY,
+      useClass: DailyQuestionRepositoryImpl,
+    },
     { provide: REPLY_REPOSITORY, useClass: ReplyRepositoryImpl },
   ],
   exports: [DAILY_QUESTION_REPOSITORY, REPLY_REPOSITORY],

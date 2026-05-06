@@ -9,19 +9,31 @@ export class UserTheme {
 
   withBottleTheme(themeId: number): UserTheme {
     return new UserTheme(
-      this.id, this.userId, themeId, this.mailboxThemeId, this.mailThemeId,
+      this.id,
+      this.userId,
+      themeId,
+      this.mailboxThemeId,
+      this.mailThemeId,
     );
   }
 
   withMailboxTheme(themeId: number): UserTheme {
     return new UserTheme(
-      this.id, this.userId, this.bottleThemeId, themeId, this.mailThemeId,
+      this.id,
+      this.userId,
+      this.bottleThemeId,
+      themeId,
+      this.mailThemeId,
     );
   }
 
   withMailTheme(themeId: number): UserTheme {
     return new UserTheme(
-      this.id, this.userId, this.bottleThemeId, this.mailboxThemeId, themeId,
+      this.id,
+      this.userId,
+      this.bottleThemeId,
+      this.mailboxThemeId,
+      themeId,
     );
   }
 

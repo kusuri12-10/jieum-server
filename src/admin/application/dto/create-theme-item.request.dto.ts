@@ -1,8 +1,19 @@
-import { IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, IsUrl, MaxLength, Min } from 'class-validator';
+import {
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUrl,
+  MaxLength,
+  Min,
+} from 'class-validator';
 import type { ThemeType } from '../../../theme/domain/entity/theme-item.entity.js';
 
 export class CreateThemeItemRequestDto {
-  @IsEnum(['BOTTLE', 'MAILBOX', 'MAIL'], { message: '타입은 BOTTLE, MAILBOX, MAIL 중 하나여야 합니다.' })
+  @IsEnum(['BOTTLE', 'MAILBOX', 'MAIL'], {
+    message: '타입은 BOTTLE, MAILBOX, MAIL 중 하나여야 합니다.',
+  })
   type: ThemeType;
 
   @IsString({ message: '테마명은 문자열이어야 합니다.' })

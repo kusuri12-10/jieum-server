@@ -22,7 +22,10 @@ export class ReplyRepositoryImpl implements ReplyRepository {
     return saved.toDomain();
   }
 
-  async findByUserIdAndQuestionId(userId: number, questionId: number): Promise<Reply | null> {
+  async findByUserIdAndQuestionId(
+    userId: number,
+    questionId: number,
+  ): Promise<Reply | null> {
     const orm = await this.repo.findOne({ where: { userId, questionId } });
     return orm ? orm.toDomain() : null;
   }

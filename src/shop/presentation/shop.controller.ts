@@ -1,6 +1,19 @@
-import { Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '../../common/guard/jwt-auth.guard.js';
-import { CurrentUser, type JwtPayload } from '../../common/decorator/current-user.decorator.js';
+import {
+  CurrentUser,
+  type JwtPayload,
+} from '../../common/decorator/current-user.decorator.js';
 import { ShopService } from '../application/shop.service.js';
 import { ProductListQueryDto } from '../application/dto/product-list.query.dto.js';
 

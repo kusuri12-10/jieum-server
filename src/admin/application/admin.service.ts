@@ -20,7 +20,10 @@ import {
   THEME_ITEM_REPOSITORY,
   type ThemeItemRepository,
 } from '../../theme/domain/repository/theme-item.repository.js';
-import { USER_REPOSITORY, type UserRepository } from '../../auth/domain/repository/user.repository.js';
+import {
+  USER_REPOSITORY,
+  type UserRepository,
+} from '../../auth/domain/repository/user.repository.js';
 import type { CreateQuestionRequestDto } from './dto/create-question.request.dto.js';
 import type { PaginationQueryDto } from './dto/pagination.query.dto.js';
 import type { CreateProductRequestDto } from './dto/create-product.request.dto.js';
@@ -47,13 +50,22 @@ export class AdminService {
   // ─── 오늘의 질문 ───────────────────────────────────────────────────
 
   async createQuestion(dto: CreateQuestionRequestDto) {
-    const questionDate = dto.questionDate ? new Date(dto.questionDate) : new Date();
-    const existing = await this.dailyQuestionRepository.findByDate(questionDate);
+    const questionDate = dto.questionDate
+      ? new Date(dto.questionDate)
+      : new Date();
+    const existing =
+      await this.dailyQuestionRepository.findByDate(questionDate);
     if (existing) {
-      throw new BusinessException(ErrorCode.QUESTION_DATE_CONFLICT, HttpStatus.CONFLICT);
+      throw new BusinessException(
+        ErrorCode.QUESTION_DATE_CONFLICT,
+        HttpStatus.CONFLICT,
+      );
     }
 
-    const question = DailyQuestion.create({ content: dto.content, questionDate });
+    const question = DailyQuestion.create({
+      content: dto.content,
+      questionDate,
+    });
     const saved = await this.dailyQuestionRepository.save(question);
 
     return {
@@ -66,7 +78,10 @@ export class AdminService {
   async deleteQuestion(id: number): Promise<void> {
     const question = await this.dailyQuestionRepository.findById(id);
     if (!question) {
-      throw new BusinessException(ErrorCode.QUESTION_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.QUESTION_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
     await this.dailyQuestionRepository.delete(id);
   }
@@ -74,14 +89,18 @@ export class AdminService {
   async getQuestionReplies(questionId: number, query: PaginationQueryDto) {
     const question = await this.dailyQuestionRepository.findById(questionId);
     if (!question) {
-      throw new BusinessException(ErrorCode.QUESTION_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.QUESTION_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
 
-    const { replies, totalCount } = await this.replyRepository.findAllByQuestionId(
-      questionId,
-      query.page,
-      query.size,
-    );
+    const { replies, totalCount } =
+      await this.replyRepository.findAllByQuestionId(
+        questionId,
+        query.page,
+        query.size,
+      );
 
     return {
       questionId: question.id,
@@ -96,7 +115,10 @@ export class AdminService {
   async getUser(id: number) {
     const user = await this.userRepository.findById(id);
     if (!user) {
-      throw new BusinessException(ErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.USER_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     return {
@@ -127,7 +149,10 @@ export class AdminService {
   async deleteProduct(id: number): Promise<void> {
     const product = await this.productRepository.findByIdAdmin(id);
     if (!product) {
-      throw new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.PRODUCT_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
     await this.productRepository.update(product.deactivate());
   }
@@ -135,7 +160,10 @@ export class AdminService {
   async bulkDeleteProducts(dto: BulkDeleteRequestDto): Promise<void> {
     const found = await this.productRepository.findManyByIds(dto.ids);
     if (found.length !== dto.ids.length) {
-      throw new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.PRODUCT_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
     await this.productRepository.softDeleteMany(dto.ids);
   }
@@ -143,7 +171,10 @@ export class AdminService {
   async updateProduct(id: number, dto: UpdateProductRequestDto) {
     const product = await this.productRepository.findByIdAdmin(id);
     if (!product) {
-      throw new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.PRODUCT_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     const updated = await this.productRepository.update(product.update(dto));
@@ -164,7 +195,10 @@ export class AdminService {
     if (dto.productId != null) {
       const product = await this.productRepository.findByIdAdmin(dto.productId);
       if (!product) {
-        throw new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND);
+        throw new BusinessException(
+          ErrorCode.PRODUCT_NOT_FOUND,
+          HttpStatus.NOT_FOUND,
+        );
       }
     }
 
@@ -183,7 +217,10 @@ export class AdminService {
   async deleteThemeItem(id: number): Promise<void> {
     const item = await this.themeItemRepository.findById(id);
     if (!item) {
-      throw new BusinessException(ErrorCode.THEME_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.THEME_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
     await this.themeItemRepository.delete(id);
   }
@@ -191,7 +228,10 @@ export class AdminService {
   async bulkDeleteThemeItems(dto: BulkDeleteRequestDto): Promise<void> {
     const found = await this.themeItemRepository.findManyByIds(dto.ids);
     if (found.length !== dto.ids.length) {
-      throw new BusinessException(ErrorCode.THEME_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.THEME_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
     await this.themeItemRepository.deleteMany(dto.ids);
   }
@@ -199,13 +239,19 @@ export class AdminService {
   async updateThemeItem(id: number, dto: UpdateThemeItemRequestDto) {
     const item = await this.themeItemRepository.findById(id);
     if (!item) {
-      throw new BusinessException(ErrorCode.THEME_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.THEME_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     if (dto.productId != null) {
       const product = await this.productRepository.findByIdAdmin(dto.productId);
       if (!product) {
-        throw new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND);
+        throw new BusinessException(
+          ErrorCode.PRODUCT_NOT_FOUND,
+          HttpStatus.NOT_FOUND,
+        );
       }
     }
 

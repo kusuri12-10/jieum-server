@@ -10,7 +10,10 @@ import {
   PURCHASE_REPOSITORY,
   type PurchaseRepository,
 } from '../domain/repository/purchase.repository.js';
-import { USER_REPOSITORY, type UserRepository } from '../../auth/domain/repository/user.repository.js';
+import {
+  USER_REPOSITORY,
+  type UserRepository,
+} from '../../auth/domain/repository/user.repository.js';
 import type { ProductListQueryDto } from './dto/product-list.query.dto.js';
 
 @Injectable()
@@ -51,7 +54,10 @@ export class ShopService {
     ]);
 
     if (!product) {
-      throw new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.PRODUCT_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     return {
@@ -68,21 +74,36 @@ export class ShopService {
   async purchaseProduct(userId: number, productId: number) {
     const product = await this.productRepository.findById(productId);
     if (!product) {
-      throw new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.PRODUCT_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
 
-    const existing = await this.purchaseRepository.findByUserIdAndProductId(userId, productId);
+    const existing = await this.purchaseRepository.findByUserIdAndProductId(
+      userId,
+      productId,
+    );
     if (existing) {
-      throw new BusinessException(ErrorCode.ALREADY_PURCHASED, HttpStatus.CONFLICT);
+      throw new BusinessException(
+        ErrorCode.ALREADY_PURCHASED,
+        HttpStatus.CONFLICT,
+      );
     }
 
     const user = await this.userRepository.findById(userId);
     if (!user) {
-      throw new BusinessException(ErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.USER_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     if (user.coins < product.price) {
-      throw new BusinessException(ErrorCode.INSUFFICIENT_COINS, HttpStatus.BAD_REQUEST);
+      throw new BusinessException(
+        ErrorCode.INSUFFICIENT_COINS,
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     await Promise.all([

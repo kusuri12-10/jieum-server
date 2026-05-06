@@ -19,10 +19,20 @@ export class ThemeItem {
     imageUrl: string;
     productId?: number | null;
   }): ThemeItem {
-    return new ThemeItem(0, props.type, props.name, props.imageUrl, props.productId ?? null);
+    return new ThemeItem(
+      0,
+      props.type,
+      props.name,
+      props.imageUrl,
+      props.productId ?? null,
+    );
   }
 
-  update(props: { name?: string; imageUrl?: string; productId?: number | null }): ThemeItem {
+  update(props: {
+    name?: string;
+    imageUrl?: string;
+    productId?: number | null;
+  }): ThemeItem {
     return new ThemeItem(
       this.id,
       this.type,

@@ -9,7 +9,16 @@ import { Streak } from '../domain/entity/streak.entity';
 import { UserTheme } from '../../theme/domain/entity/user-theme.entity';
 import { ErrorCode } from '../../common/exception/error-code';
 
-const mockUser = new User(1, 'test@test.com', 'hashed_pw', '닉네임', 320, 30, new Date(), null);
+const mockUser = new User(
+  1,
+  'test@test.com',
+  'hashed_pw',
+  '닉네임',
+  320,
+  30,
+  new Date(),
+  null,
+);
 const mockStreaks = [
   new Streak(1, 1, new Date('2026-05-06'), true),
   new Streak(2, 1, new Date('2026-05-05'), true),
@@ -88,7 +97,11 @@ describe('MainScreenService', () => {
 
       const result = await service.getMainScreen(1);
 
-      expect(result.theme).toEqual({ bottleThemeId: null, mailboxThemeId: null, mailThemeId: null });
+      expect(result.theme).toEqual({
+        bottleThemeId: null,
+        mailboxThemeId: null,
+        mailThemeId: null,
+      });
     });
   });
 
@@ -107,7 +120,9 @@ describe('MainScreenService', () => {
     it('유저가 없으면 USER_NOT_FOUND 예외를 던진다', async () => {
       mockUserRepository.findById.mockResolvedValue(null);
 
-      await expect(service.updateStreakGoal(999, { streakGoal: 60 })).rejects.toMatchObject({
+      await expect(
+        service.updateStreakGoal(999, { streakGoal: 60 }),
+      ).rejects.toMatchObject({
         response: { code: ErrorCode.USER_NOT_FOUND.code },
       });
     });

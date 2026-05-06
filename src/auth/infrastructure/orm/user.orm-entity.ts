@@ -29,7 +29,12 @@ export class UserOrmEntity {
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @Column({ name: 'deleted_at', type: 'timestamp', nullable: true, default: null })
+  @Column({
+    name: 'deleted_at',
+    type: 'timestamp',
+    nullable: true,
+    default: null,
+  })
   deletedAt: Date | null;
 
   @Column({ name: 'is_admin', type: 'boolean', default: false })

@@ -4,7 +4,10 @@ export const REPLY_REPOSITORY = Symbol('REPLY_REPOSITORY');
 
 export interface ReplyRepository {
   save(reply: Reply): Promise<Reply>;
-  findByUserIdAndQuestionId(userId: number, questionId: number): Promise<Reply | null>;
+  findByUserIdAndQuestionId(
+    userId: number,
+    questionId: number,
+  ): Promise<Reply | null>;
   findAllByUserId(
     userId: number,
     page: number,

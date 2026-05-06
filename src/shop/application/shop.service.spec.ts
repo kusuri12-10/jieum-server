@@ -9,10 +9,36 @@ import { Purchase } from '../domain/entity/purchase.entity';
 import { User } from '../../auth/domain/entity/user.entity';
 import { ErrorCode } from '../../common/exception/error-code';
 
-const mockProduct = new Product(1, '벚꽃 유리병', '봄 향기...', 'https://img.png', 300, 'BOTTLE', true);
+const mockProduct = new Product(
+  1,
+  '벚꽃 유리병',
+  '봄 향기...',
+  'https://img.png',
+  300,
+  'BOTTLE',
+  true,
+);
 const mockPurchase = new Purchase(1, 1, 1, new Date());
-const mockUser = new User(1, 'test@test.com', 'hashed_pw', '닉네임', 500, 30, new Date(), null);
-const poorUser = new User(2, 'poor@test.com', 'hashed_pw', '가난한닉', 100, 30, new Date(), null);
+const mockUser = new User(
+  1,
+  'test@test.com',
+  'hashed_pw',
+  '닉네임',
+  500,
+  30,
+  new Date(),
+  null,
+);
+const poorUser = new User(
+  2,
+  'poor@test.com',
+  'hashed_pw',
+  '가난한닉',
+  100,
+  30,
+  new Date(),
+  null,
+);
 
 const mockProductRepository = {
   findAll: jest.fn(),
@@ -77,7 +103,9 @@ describe('ShopService', () => {
   describe('getProduct', () => {
     it('상품 상세와 구매 여부를 반환한다', async () => {
       mockProductRepository.findById.mockResolvedValue(mockProduct);
-      mockPurchaseRepository.findByUserIdAndProductId.mockResolvedValue(mockPurchase);
+      mockPurchaseRepository.findByUserIdAndProductId.mockResolvedValue(
+        mockPurchase,
+      );
 
       const result = await service.getProduct(1, 1);
 
@@ -134,7 +162,9 @@ describe('ShopService', () => {
 
     it('이미 구매한 상품이면 ALREADY_PURCHASED 예외를 던진다', async () => {
       mockProductRepository.findById.mockResolvedValue(mockProduct);
-      mockPurchaseRepository.findByUserIdAndProductId.mockResolvedValue(mockPurchase);
+      mockPurchaseRepository.findByUserIdAndProductId.mockResolvedValue(
+        mockPurchase,
+      );
 
       await expect(service.purchaseProduct(1, 1)).rejects.toMatchObject({
         response: { code: ErrorCode.ALREADY_PURCHASED.code },

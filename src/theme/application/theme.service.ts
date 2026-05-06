@@ -51,7 +51,10 @@ export class ThemeService {
   async changeTheme(userId: number, type: ThemeType, themeId: number) {
     const theme = await this.themeItemRepository.findById(themeId);
     if (!theme || theme.type !== type) {
-      throw new BusinessException(ErrorCode.THEME_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.THEME_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     if (!theme.isFree()) {
@@ -60,7 +63,10 @@ export class ThemeService {
         theme.productId!,
       );
       if (!purchase) {
-        throw new BusinessException(ErrorCode.THEME_NOT_UNLOCKED, HttpStatus.FORBIDDEN);
+        throw new BusinessException(
+          ErrorCode.THEME_NOT_UNLOCKED,
+          HttpStatus.FORBIDDEN,
+        );
       }
     }
 
@@ -83,7 +89,11 @@ export class ThemeService {
     return userTheme.mailThemeId;
   }
 
-  private applyThemeChange(userTheme: UserTheme, type: ThemeType, themeId: number): UserTheme {
+  private applyThemeChange(
+    userTheme: UserTheme,
+    type: ThemeType,
+    themeId: number,
+  ): UserTheme {
     if (type === 'BOTTLE') return userTheme.withBottleTheme(themeId);
     if (type === 'MAILBOX') return userTheme.withMailboxTheme(themeId);
     return userTheme.withMailTheme(themeId);

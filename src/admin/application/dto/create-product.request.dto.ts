@@ -1,4 +1,12 @@
-import { IsEnum, IsInt, IsNotEmpty, IsString, IsUrl, MaxLength, Min } from 'class-validator';
+import {
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  IsUrl,
+  MaxLength,
+  Min,
+} from 'class-validator';
 import type { ProductCategory } from '../../../shop/domain/entity/product.entity.js';
 
 export class CreateProductRequestDto {
@@ -19,6 +27,8 @@ export class CreateProductRequestDto {
   @Min(0, { message: '가격은 0 이상이어야 합니다.' })
   price: number;
 
-  @IsEnum(['BOTTLE', 'MAILBOX', 'MAIL'], { message: '카테고리는 BOTTLE, MAILBOX, MAIL 중 하나여야 합니다.' })
+  @IsEnum(['BOTTLE', 'MAILBOX', 'MAIL'], {
+    message: '카테고리는 BOTTLE, MAILBOX, MAIL 중 하나여야 합니다.',
+  })
   category: ProductCategory;
 }

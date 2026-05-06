@@ -3,7 +3,10 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { User } from '../domain/entity/user.entity.js';
-import { USER_REPOSITORY, type UserRepository } from '../domain/repository/user.repository.js';
+import {
+  USER_REPOSITORY,
+  type UserRepository,
+} from '../domain/repository/user.repository.js';
 import { BusinessException } from '../../common/exception/business.exception.js';
 import { ErrorCode } from '../../common/exception/error-code.js';
 import { RedisService } from '../../redis/redis.service.js';
@@ -23,11 +26,18 @@ export class AuthService {
   async signup(dto: SignupRequestDto) {
     const existing = await this.userRepository.findByEmail(dto.email);
     if (existing) {
-      throw new BusinessException(ErrorCode.EMAIL_ALREADY_EXISTS, HttpStatus.CONFLICT);
+      throw new BusinessException(
+        ErrorCode.EMAIL_ALREADY_EXISTS,
+        HttpStatus.CONFLICT,
+      );
     }
 
     const passwordHash = await bcrypt.hash(dto.password, 10);
-    const user = User.create({ email: dto.email, passwordHash, nickname: dto.nickname });
+    const user = User.create({
+      email: dto.email,
+      passwordHash,
+      nickname: dto.nickname,
+    });
     const saved = await this.userRepository.save(user);
 
     return {
@@ -40,12 +50,21 @@ export class AuthService {
   async login(dto: LoginRequestDto) {
     const user = await this.userRepository.findByEmail(dto.email);
     if (!user || user.isDeleted()) {
-      throw new BusinessException(ErrorCode.INVALID_CREDENTIALS, HttpStatus.UNAUTHORIZED);
+      throw new BusinessException(
+        ErrorCode.INVALID_CREDENTIALS,
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
-    const isPasswordValid = await bcrypt.compare(dto.password, user.passwordHash);
+    const isPasswordValid = await bcrypt.compare(
+      dto.password,
+      user.passwordHash,
+    );
     if (!isPasswordValid) {
-      throw new BusinessException(ErrorCode.INVALID_CREDENTIALS, HttpStatus.UNAUTHORIZED);
+      throw new BusinessException(
+        ErrorCode.INVALID_CREDENTIALS,
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
     const payload = { sub: user.id, email: user.email, isAdmin: user.isAdmin };
@@ -72,7 +91,10 @@ export class AuthService {
   async withdraw(userId: number): Promise<void> {
     const user = await this.userRepository.findById(userId);
     if (!user) {
-      throw new BusinessException(ErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.USER_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
     await this.userRepository.update(user.withdraw());
   }

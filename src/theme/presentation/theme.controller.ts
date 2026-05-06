@@ -1,6 +1,18 @@
-import { Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Patch,
+  UseGuards,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '../../common/guard/jwt-auth.guard.js';
-import { CurrentUser, type JwtPayload } from '../../common/decorator/current-user.decorator.js';
+import {
+  CurrentUser,
+  type JwtPayload,
+} from '../../common/decorator/current-user.decorator.js';
 import { ThemeService } from '../application/theme.service.js';
 import type { ThemeType } from '../domain/entity/theme-item.entity.js';
 

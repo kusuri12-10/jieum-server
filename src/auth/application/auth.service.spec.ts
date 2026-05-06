@@ -13,7 +13,16 @@ import { RedisService } from '../../redis/redis.service';
 jest.mock('bcrypt');
 const bcryptMock = bcrypt as jest.Mocked<typeof bcrypt>;
 
-const mockUser = new User(1, 'test@test.com', 'hashed_pw', '닉네임', 100, 30, new Date(), null);
+const mockUser = new User(
+  1,
+  'test@test.com',
+  'hashed_pw',
+  '닉네임',
+  100,
+  30,
+  new Date(),
+  null,
+);
 
 const mockUserRepository = {
   findByEmail: jest.fn(),
@@ -55,7 +64,11 @@ describe('AuthService', () => {
   });
 
   describe('signup', () => {
-    const dto = { email: 'test@test.com', password: 'password123', nickname: '닉네임' };
+    const dto = {
+      email: 'test@test.com',
+      password: 'password123',
+      nickname: '닉네임',
+    };
 
     it('회원가입 성공 시 userId, nickname, email을 반환한다', async () => {
       mockUserRepository.findByEmail.mockResolvedValue(null);
@@ -64,7 +77,11 @@ describe('AuthService', () => {
 
       const result = await service.signup(dto);
 
-      expect(result).toEqual({ userId: 1, nickname: '닉네임', email: 'test@test.com' });
+      expect(result).toEqual({
+        userId: 1,
+        nickname: '닉네임',
+        email: 'test@test.com',
+      });
       expect(mockUserRepository.save).toHaveBeenCalledTimes(1);
     });
 
@@ -89,7 +106,11 @@ describe('AuthService', () => {
 
       expect(result).toHaveProperty('accessToken');
       expect(result).toHaveProperty('refreshToken');
-      expect(result.user).toEqual({ userId: 1, nickname: '닉네임', coins: 100 });
+      expect(result.user).toEqual({
+        userId: 1,
+        nickname: '닉네임',
+        coins: 100,
+      });
     });
 
     it('존재하지 않는 이메일이면 INVALID_CREDENTIALS 예외를 던진다', async () => {
@@ -102,7 +123,16 @@ describe('AuthService', () => {
     });
 
     it('탈퇴한 계정이면 INVALID_CREDENTIALS 예외를 던진다', async () => {
-      const deletedUser = new User(1, 'test@test.com', 'hashed_pw', '닉네임', 0, 30, new Date(), new Date());
+      const deletedUser = new User(
+        1,
+        'test@test.com',
+        'hashed_pw',
+        '닉네임',
+        0,
+        30,
+        new Date(),
+        new Date(),
+      );
       mockUserRepository.findByEmail.mockResolvedValue(deletedUser);
 
       await expect(service.login(dto)).rejects.toMatchObject({

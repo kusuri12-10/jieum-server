@@ -18,7 +18,10 @@ export class PurchaseRepositoryImpl implements PurchaseRepository {
     return saved.toDomain();
   }
 
-  async findByUserIdAndProductId(userId: number, productId: number): Promise<Purchase | null> {
+  async findByUserIdAndProductId(
+    userId: number,
+    productId: number,
+  ): Promise<Purchase | null> {
     const orm = await this.repo.findOne({ where: { userId, productId } });
     return orm ? orm.toDomain() : null;
   }

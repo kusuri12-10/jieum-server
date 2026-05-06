@@ -1,7 +1,10 @@
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { BusinessException } from '../../common/exception/business.exception.js';
 import { ErrorCode } from '../../common/exception/error-code.js';
-import { USER_REPOSITORY, type UserRepository } from '../../auth/domain/repository/user.repository.js';
+import {
+  USER_REPOSITORY,
+  type UserRepository,
+} from '../../auth/domain/repository/user.repository.js';
 import {
   STREAK_REPOSITORY,
   type StreakRepository,
@@ -26,7 +29,10 @@ export class MainScreenService {
   async getMainScreen(userId: number) {
     const user = await this.userRepository.findById(userId);
     if (!user) {
-      throw new BusinessException(ErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.USER_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     const [streakHistory, streakCurrent, userTheme] = await Promise.all([
@@ -57,7 +63,10 @@ export class MainScreenService {
   async updateStreakGoal(userId: number, dto: UpdateStreakGoalRequestDto) {
     const user = await this.userRepository.findById(userId);
     if (!user) {
-      throw new BusinessException(ErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new BusinessException(
+        ErrorCode.USER_NOT_FOUND,
+        HttpStatus.NOT_FOUND,
+      );
     }
     await this.userRepository.update(user.withStreakGoal(dto.streakGoal));
     return { streakGoal: dto.streakGoal };

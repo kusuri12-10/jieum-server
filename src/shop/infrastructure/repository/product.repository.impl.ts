@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import type { Product, ProductCategory } from '../../domain/entity/product.entity.js';
+import type {
+  Product,
+  ProductCategory,
+} from '../../domain/entity/product.entity.js';
 import type { ProductRepository } from '../../domain/repository/product.repository.js';
 import { ProductOrmEntity } from '../orm/product.orm-entity.js';
 
@@ -12,7 +15,11 @@ export class ProductRepositoryImpl implements ProductRepository {
     private readonly repo: Repository<ProductOrmEntity>,
   ) {}
 
-  async findAll(category?: ProductCategory, page = 1, size = 20): Promise<Product[]> {
+  async findAll(
+    category?: ProductCategory,
+    page = 1,
+    size = 20,
+  ): Promise<Product[]> {
     const qb = this.repo
       .createQueryBuilder('p')
       .where('p.isActive = true')

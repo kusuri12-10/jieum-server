@@ -18,14 +18,35 @@ export class Product {
     price: number;
     category: ProductCategory;
   }): Product {
-    return new Product(0, props.name, props.description, props.imageUrl, props.price, props.category, true);
+    return new Product(
+      0,
+      props.name,
+      props.description,
+      props.imageUrl,
+      props.price,
+      props.category,
+      true,
+    );
   }
 
   deactivate(): Product {
-    return new Product(this.id, this.name, this.description, this.imageUrl, this.price, this.category, false);
+    return new Product(
+      this.id,
+      this.name,
+      this.description,
+      this.imageUrl,
+      this.price,
+      this.category,
+      false,
+    );
   }
 
-  update(props: { name?: string; description?: string; imageUrl?: string; price?: number }): Product {
+  update(props: {
+    name?: string;
+    description?: string;
+    imageUrl?: string;
+    price?: number;
+  }): Product {
     return new Product(
       this.id,
       props.name ?? this.name,

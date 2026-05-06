@@ -1,4 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Streak } from '../../domain/entity/streak.entity.js';
 import { UserOrmEntity } from '../../../auth/infrastructure/orm/user.orm-entity.js';
 

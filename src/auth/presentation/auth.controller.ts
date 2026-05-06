@@ -11,7 +11,10 @@ import { AuthService } from '../application/auth.service.js';
 import { SignupRequestDto } from '../application/dto/signup.request.dto.js';
 import { LoginRequestDto } from '../application/dto/login.request.dto.js';
 import { JwtAuthGuard } from '../../common/guard/jwt-auth.guard.js';
-import { CurrentUser, type JwtPayload } from '../../common/decorator/current-user.decorator.js';
+import {
+  CurrentUser,
+  type JwtPayload,
+} from '../../common/decorator/current-user.decorator.js';
 
 @Controller()
 export class AuthController {

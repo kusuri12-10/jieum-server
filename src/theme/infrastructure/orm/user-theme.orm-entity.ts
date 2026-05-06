@@ -1,4 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UserTheme } from '../../domain/entity/user-theme.entity.js';
 import { UserOrmEntity } from '../../../auth/infrastructure/orm/user.orm-entity.js';
 
@@ -10,13 +16,28 @@ export class UserThemeOrmEntity {
   @Column({ name: 'user_id', type: 'bigint', unique: true })
   userId: number;
 
-  @Column({ name: 'bottle_theme_id', type: 'bigint', nullable: true, default: null })
+  @Column({
+    name: 'bottle_theme_id',
+    type: 'bigint',
+    nullable: true,
+    default: null,
+  })
   bottleThemeId: number | null;
 
-  @Column({ name: 'mailbox_theme_id', type: 'bigint', nullable: true, default: null })
+  @Column({
+    name: 'mailbox_theme_id',
+    type: 'bigint',
+    nullable: true,
+    default: null,
+  })
   mailboxThemeId: number | null;
 
-  @Column({ name: 'mail_theme_id', type: 'bigint', nullable: true, default: null })
+  @Column({
+    name: 'mail_theme_id',
+    type: 'bigint',
+    nullable: true,
+    default: null,
+  })
   mailThemeId: number | null;
 
   @ManyToOne(() => UserOrmEntity)
