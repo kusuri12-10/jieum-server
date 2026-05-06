@@ -10,6 +10,7 @@
 | ORM | TypeORM |
 | 데이터베이스 | MySQL |
 | 인증 | JWT (Access Token 15m / Refresh Token 7d) |
+| 캐시/세션 | Redis (ioredis) — 로그아웃 토큰 무효화 |
 | 유효성 검사 | class-validator + class-transformer |
 | 패스워드 해시 | bcrypt |
 
@@ -43,6 +44,11 @@ Presentation  →  Application  →  Domain  ←  Infrastructure
 src/
 ├── main.ts                              # 앱 진입점 (ValidationPipe, GlobalExceptionFilter 등록)
 ├── app.module.ts                        # 루트 모듈 (TypeORM, ConfigModule, 전체 모듈 등록)
+│
+├── redis/                               # Redis 전역 모듈
+│   ├── redis.constants.ts               # REDIS_CLIENT Symbol 토큰
+│   ├── redis.module.ts                  # @Global() — ioredis 클라이언트 등록 및 RedisService export
+│   └── redis.service.ts                 # setLogoutTime / isTokenValid
 │
 ├── common/                              # 공통 유틸리티
 │   ├── decorator/
@@ -144,6 +150,8 @@ src/
 ## 모듈 의존 관계
 
 ```
+RedisModule (@Global)          ← 모든 모듈에서 주입 가능
+
 MainScreenModule
   ├── AuthModule        (UserRepository)
   └── ThemeModule       (UserThemeRepository)
@@ -155,6 +163,15 @@ MailModule
 StatModule
   └── MailModule        (ReplyRepository — 통계 집계)
 ```
+
+### Redis 활용
+
+| 기능 | 키 패턴 | TTL |
+|---|---|---|
+| 로그아웃 시각 기록 | `auth:logout:{userId}` | 7일 (Refresh Token 만료 주기와 동일) |
+
+- 로그아웃 시 해당 키에 `iat` 타임스탬프를 저장
+- `JwtStrategy.validate()` 에서 `iat > storedLogoutTime` 을 검사 → 로그아웃 이후 발급된 토큰은 모두 거부
 
 ---
 
