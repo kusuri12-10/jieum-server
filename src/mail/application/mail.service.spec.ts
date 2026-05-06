@@ -35,7 +35,7 @@ const mockUser = new User(
 );
 
 const mockQuestionRepository = {
-  findByDate: jest.fn(),
+  findManyByDate: jest.fn(),
   findById: jest.fn(),
 };
 
@@ -82,7 +82,7 @@ describe('MailService', () => {
 
   describe('getTodayQuestion', () => {
     it('오늘의 질문과 답신 여부를 반환한다', async () => {
-      mockQuestionRepository.findByDate.mockResolvedValue(mockQuestion);
+      mockQuestionRepository.findManyByDate.mockResolvedValue([mockQuestion]);
       mockReplyRepository.findByUserIdAndQuestionId.mockResolvedValue(null);
 
       const result = await service.getTodayQuestion(1);
@@ -95,7 +95,7 @@ describe('MailService', () => {
     });
 
     it('이미 답신했으면 hasReplied가 true다', async () => {
-      mockQuestionRepository.findByDate.mockResolvedValue(mockQuestion);
+      mockQuestionRepository.findManyByDate.mockResolvedValue([mockQuestion]);
       mockReplyRepository.findByUserIdAndQuestionId.mockResolvedValue(
         mockReply,
       );
@@ -106,7 +106,7 @@ describe('MailService', () => {
     });
 
     it('오늘의 질문이 없으면 QUESTION_NOT_FOUND 예외를 던진다', async () => {
-      mockQuestionRepository.findByDate.mockResolvedValue(null);
+      mockQuestionRepository.findManyByDate.mockResolvedValue([]);
 
       await expect(service.getTodayQuestion(1)).rejects.toMatchObject({
         response: { code: ErrorCode.QUESTION_NOT_FOUND.code },

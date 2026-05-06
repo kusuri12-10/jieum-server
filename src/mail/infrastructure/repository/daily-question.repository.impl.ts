@@ -12,13 +12,13 @@ export class DailyQuestionRepositoryImpl implements DailyQuestionRepository {
     private readonly repo: Repository<DailyQuestionOrmEntity>,
   ) {}
 
-  async findByDate(date: Date): Promise<DailyQuestion | null> {
+  async findManyByDate(date: Date): Promise<DailyQuestion[]> {
     const dateStr = date.toISOString().split('T')[0];
-    const orm = await this.repo
+    const orms = await this.repo
       .createQueryBuilder('q')
       .where('DATE(q.questionDate) = :date', { date: dateStr })
-      .getOne();
-    return orm ? orm.toDomain() : null;
+      .getMany();
+    return orms.map((orm) => orm.toDomain());
   }
 
   async findById(id: number): Promise<DailyQuestion | null> {

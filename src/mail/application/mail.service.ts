@@ -32,13 +32,14 @@ export class MailService {
 
   async getTodayQuestion(userId: number) {
     const today = new Date();
-    const question = await this.questionRepository.findByDate(today);
-    if (!question) {
+    const questions = await this.questionRepository.findManyByDate(today);
+    if (questions.length === 0) {
       throw new BusinessException(
         ErrorCode.QUESTION_NOT_FOUND,
         HttpStatus.NOT_FOUND,
       );
     }
+    const question = questions[Math.floor(Math.random() * questions.length)];
 
     const existing = await this.replyRepository.findByUserIdAndQuestionId(
       userId,
