@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type Redis from 'ioredis';
-import { REDIS_CLIENT } from './redis.module.js';
+import { REDIS_CLIENT } from './redis.constants.js';
 
 const LOGOUT_KEY_PREFIX = 'auth:logout:';
 const SEVEN_DAYS_SECONDS = 60 * 60 * 24 * 7;
