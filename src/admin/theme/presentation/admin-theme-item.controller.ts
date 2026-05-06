@@ -19,9 +19,7 @@ import { BulkDeleteRequestDto } from '../../shared/dto/bulk-delete.request.dto.j
 @Controller('admin/theme-items')
 @UseGuards(AdminGuard)
 export class AdminThemeItemController {
-  constructor(
-    private readonly adminThemeItemService: AdminThemeItemService,
-  ) {}
+  constructor(private readonly adminThemeItemService: AdminThemeItemService) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
