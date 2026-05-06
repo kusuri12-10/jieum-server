@@ -73,6 +73,9 @@
 | POST | `/admin/products` | 관리자 | 상품 추가 |
 | DELETE | `/admin/products/{id}` | 관리자 | 상품 삭제 |
 | PATCH | `/admin/products/{id}` | 관리자 | 상품 수정 |
+| POST | `/admin/theme-items` | 관리자 | 테마 아이템 추가 |
+| DELETE | `/admin/theme-items/{id}` | 관리자 | 테마 아이템 삭제 |
+| PATCH | `/admin/theme-items/{id}` | 관리자 | 테마 아이템 수정 |
 
 ---
 
@@ -758,3 +761,99 @@
 | 코드 | HTTP | 조건 |
 |---|---|---|
 | `PRODUCT_NOT_FOUND` | 404 | 상품 없음 |
+
+---
+
+### 7-7. 테마 아이템 추가
+
+| 항목 | 내용 |
+|---|---|
+| Method | `POST` |
+| URL | `/admin/theme-items` |
+| 인증 | 관리자 |
+
+**Request Body**
+```json
+{
+  "type": "BOTTLE",
+  "name": "벚꽃 유리병",
+  "imageUrl": "https://...",
+  "productId": 10
+}
+```
+
+> `productId`: 연결할 상품 ID. `null` 또는 생략 시 무료 기본 테마로 등록
+
+**Response `201`**
+```json
+{
+  "themeItemId": 5,
+  "type": "BOTTLE",
+  "name": "벚꽃 유리병",
+  "imageUrl": "https://...",
+  "productId": 10
+}
+```
+
+**에러**
+
+| 코드 | HTTP | 조건 |
+|---|---|---|
+| `PRODUCT_NOT_FOUND` | 404 | 연결할 상품이 존재하지 않음 |
+
+---
+
+### 7-8. 테마 아이템 삭제
+
+| 항목 | 내용 |
+|---|---|
+| Method | `DELETE` |
+| URL | `/admin/theme-items/{id}` |
+| 인증 | 관리자 |
+
+**Response `204 No Content`**
+
+**에러**
+
+| 코드 | HTTP | 조건 |
+|---|---|---|
+| `THEME_NOT_FOUND` | 404 | 테마 아이템 없음 |
+
+---
+
+### 7-9. 테마 아이템 수정
+
+| 항목 | 내용 |
+|---|---|
+| Method | `PATCH` |
+| URL | `/admin/theme-items/{id}` |
+| 인증 | 관리자 |
+
+**Request Body** (모든 필드 선택적)
+```json
+{
+  "name": "벚꽃 유리병 리뉴얼",
+  "imageUrl": "https://...",
+  "productId": 11
+}
+```
+
+> `type` 은 변경 불가
+
+**Response `200`**
+```json
+{
+  "themeItemId": 5,
+  "type": "BOTTLE",
+  "name": "벚꽃 유리병 리뉴얼",
+  "imageUrl": "https://...",
+  "productId": 11
+}
+```
+
+**에러**
+
+| 코드 | HTTP | 조건 |
+|---|---|---|
+| `THEME_NOT_FOUND` | 404 | 테마 아이템 없음 |
+| `PRODUCT_NOT_FOUND` | 404 | 연결할 상품이 존재하지 않음 |
