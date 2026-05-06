@@ -9,7 +9,7 @@ export class DailyQuestionOrmEntity {
   @Column({ type: 'varchar', length: 500 })
   content: string;
 
-  @Column({ name: 'question_date', type: 'date', unique: true })
+  @Column({ name: 'question_date', type: 'date' })
   questionDate: Date;
 
   static fromDomain(q: DailyQuestion): DailyQuestionOrmEntity {

@@ -26,14 +26,6 @@ export class AdminQuestionService {
     const questionDate = dto.questionDate
       ? new Date(dto.questionDate)
       : new Date();
-    const existing =
-      await this.dailyQuestionRepository.findByDate(questionDate);
-    if (existing) {
-      throw new BusinessException(
-        ErrorCode.QUESTION_DATE_CONFLICT,
-        HttpStatus.CONFLICT,
-      );
-    }
 
     const question = DailyQuestion.create({
       content: dto.content,
