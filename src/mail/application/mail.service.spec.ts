@@ -139,7 +139,8 @@ describe('MailService', () => {
 
       await service.submitReply(1, dto);
 
-      const updatedUser: User = mockUserRepository.update.mock.calls[0][0];
+      const [firstCall] = mockUserRepository.update.mock.calls as [[User]];
+      const updatedUser = firstCall[0];
       expect(updatedUser.coins).toBe(110); // 100 + 10
     });
 

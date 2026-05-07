@@ -14,7 +14,6 @@ import {
   type JwtPayload,
 } from '../../common/decorator/current-user.decorator.js';
 import { ThemeService } from '../application/theme.service.js';
-import type { ThemeType } from '../domain/entity/theme-item.entity.js';
 
 @Controller('theme')
 @UseGuards(JwtAuthGuard)

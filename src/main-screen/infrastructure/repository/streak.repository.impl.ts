@@ -31,7 +31,7 @@ export class StreakRepositoryImpl implements StreakRepository {
     if (rows.length === 0) return 0;
 
     let streak = 0;
-    let expected = new Date();
+    const expected = new Date();
     expected.setHours(0, 0, 0, 0);
 
     for (const row of rows) {

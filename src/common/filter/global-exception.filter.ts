@@ -21,7 +21,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       const status = exception.getStatus();
       const body = exception.getResponse();
 
-      if (typeof body === 'object' && 'code' in (body as object)) {
+      if (typeof body === 'object' && 'code' in body) {
         // { code, message } 형태 — BusinessException, exceptionFactory 모두 처리
         response.status(status).json(body);
       } else {

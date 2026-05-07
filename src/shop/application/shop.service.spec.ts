@@ -148,7 +148,8 @@ describe('ShopService', () => {
 
       await service.purchaseProduct(1, 1);
 
-      const updatedUser: User = mockUserRepository.update.mock.calls[0][0];
+      const [firstCall] = mockUserRepository.update.mock.calls as [[User]];
+      const updatedUser = firstCall[0];
       expect(updatedUser.coins).toBe(200); // 500 - 300
     });
 

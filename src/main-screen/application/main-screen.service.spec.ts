@@ -113,7 +113,8 @@ describe('MainScreenService', () => {
       const result = await service.updateStreakGoal(1, { streakGoal: 60 });
 
       expect(result).toEqual({ streakGoal: 60 });
-      const updatedUser: User = mockUserRepository.update.mock.calls[0][0];
+      const [firstCall] = mockUserRepository.update.mock.calls as [[User]];
+      const updatedUser = firstCall[0];
       expect(updatedUser.streakGoal).toBe(60);
     });
 
