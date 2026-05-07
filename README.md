@@ -63,6 +63,18 @@ npm run format     # Prettier
 
 ---
 
+## 더미 데이터
+
+[document/dummy.sql](./document/dummy.sql) 에 더미 데이터를 추가하는 SQL문을 작성해두었습니다.
+
+실행:
+
+```bash
+mysql -u root -p jieum < document/dummy.sql
+```
+
+---
+
 ## 아키텍처
 
 DDD + 레이어드 아키텍처를 적용하였습니다.
